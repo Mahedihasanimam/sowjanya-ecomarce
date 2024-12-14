@@ -1,3 +1,4 @@
+import AboutSection from '@/components/home/AboutSection';
 import Blogs from '@/components/home/Blogs';
 import CuratedExclusive from '@/components/home/CuratedExclusive';
 import HeroSection from '@/components/home/HeroSection';
@@ -9,6 +10,7 @@ const page = () => {
            <HeroSection/>
            <CuratedExclusive/>
            <Blogs/>
+           <AboutSection/>
         </div>
     );
 };
