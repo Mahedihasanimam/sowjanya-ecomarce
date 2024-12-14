@@ -13,6 +13,10 @@ module.exports = {
         primary: "#000000",
         secondary:"#DBBC7E"
       },
+
+      fontFamily: {
+        roboto: ["Roboto", "serif"],
+      },
     },
   },
   plugins: [],
