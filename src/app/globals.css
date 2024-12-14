@@ -26,3 +26,12 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* In your global CSS or a scoped CSS file */
+.ant-input::placeholder {
+  color: #888888; /* Your desired placeholder color */
+}
+:where(.css-dev-only-do-not-override-142vneq).ant-input-affix-wrapper .anticon.ant-input-password-icon {
+  color: rgb(255 255 255 / 45%);
+  cursor: pointer;
+  transition: all 0.3s;
+}
