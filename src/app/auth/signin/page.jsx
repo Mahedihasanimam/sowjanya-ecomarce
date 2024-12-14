@@ -6,12 +6,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import signupimg from '../../../public/images/loginimg.png'
 import logo from '../../../public/images/mainlogo.png'
+import { useRouter } from 'next/navigation'
 
 export default function SigninPage() {
   const [form] = Form.useForm()
-
+const router=useRouter()
   const onFinish = (values) => {
     console.log('Form values:', values)
+    router.push('/')
   }
 
   return (

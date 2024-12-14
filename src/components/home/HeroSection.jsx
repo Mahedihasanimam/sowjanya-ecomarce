@@ -26,7 +26,7 @@ const HeroSection = () => {
             Each collection is crafted with precision and purpose, blending modern elegance with lasting quality. Limited to only the most discerning, our drops are designed to make a statement - because style this exclusive doesn’t wait. Shop now before it’s gone.
             </p>
             <div className="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-            <Link href="/browseCourse">
+            <Link href="/bowseproduct">
             <Button
                 className="text-[#FFFFFF] text-[16px] font-semibold  bg-secondary rounded-none px-6"
                 size="large"
