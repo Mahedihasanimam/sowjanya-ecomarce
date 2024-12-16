@@ -34,13 +34,13 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex space-x-6">
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.key}
-              href={`#${item.key}`}
+              href={`${item.key}`}
               className="text-white hover:text-yellow-500 transition"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -83,14 +83,15 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-black text-white px-6 py-4">
           {menuItems.map((item) => (
-            <a
+            <Link
+          
               key={item.key}
-              href={`#${item.key}`}
+              href={`${item.key}`}
               className="block py-2 text-white hover:text-yellow-500 transition"
               onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </div>
       )}
