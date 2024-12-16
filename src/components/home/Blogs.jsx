@@ -1,6 +1,7 @@
 
 import product from '../../public/images/blogimg.png'
-import { BlogCard } from '../util/blogCard';
+import { BlogCard } from '../util/BlogCard';
+
 
 
 const products = [

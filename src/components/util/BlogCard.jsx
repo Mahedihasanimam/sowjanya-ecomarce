@@ -2,13 +2,16 @@
 
 import { Card, Rate } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 
-export function BlogCard({ title, price, description, image, rating, reviews }) {
+export function BlogCard({ title, price, description, image, rating, reviews,id }) {
   return (
+    <Link href={`/blogs/${id}`}>
+    
     <Card 
-      className="w-full  p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow"
+      className="w-full  p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow "
       bodyStyle={{ padding: "0" }}
     >
       <div className="  w-full">
@@ -54,6 +57,7 @@ export function BlogCard({ title, price, description, image, rating, reviews }) 
         
       </div>
     </Card>
+    </Link>
   )
 }
 

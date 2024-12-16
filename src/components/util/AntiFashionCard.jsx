@@ -2,11 +2,14 @@
 
 import { Card, Rate } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 
-export function AntiFashionCard({ title, price, description, image, rating, reviews }) {
+export function AntiFashionCard({ title, price, description, image, rating, reviews,id }) {
   return (
+    <Link href={`/products/${id}`}>
+
     <Card 
       className="w-full  p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow"
       bodyStyle={{ padding: "0"}}
@@ -45,6 +48,7 @@ export function AntiFashionCard({ title, price, description, image, rating, revi
         </div>
       </div>
     </Card>
+    </Link>
   )
 }
 

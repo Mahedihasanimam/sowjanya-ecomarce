@@ -36,7 +36,7 @@ const Navbar = () => {
           {menuItems.map((item) => (
             <Link
               key={item.key}
-              href={`${item.key}`}
+              href={`/${item.key}`}
               className="text-white hover:text-yellow-500 transition"
             >
               {item.label}
@@ -86,7 +86,7 @@ const Navbar = () => {
             <Link
           
               key={item.key}
-              href={`${item.key}`}
+              href={`/${item.key}`}
               className="block py-2 text-white hover:text-yellow-500 transition"
               onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
             >
