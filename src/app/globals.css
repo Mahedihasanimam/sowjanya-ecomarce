@@ -35,3 +35,24 @@ body {
   cursor: pointer;
   transition: all 0.3s;
 }
+
+/* Add this to your global CSS file or Tailwind layer */
+.custom-table .ant-table {
+  background-color: #000; /* Table background black */
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #000; /* Header background black */
+  color: #fff; /* Header text white */
+  border: none;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  background-color: #000; /* Row background black */
+  color: #fff; /* Row text white */
+  border: none;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  background-color: #111 !important; /* Slightly lighter black for hover */
+}
