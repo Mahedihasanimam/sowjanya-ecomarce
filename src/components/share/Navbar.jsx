@@ -22,13 +22,15 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <div className="flex items-center">
-          <Image
+         <Link href={'/'}>
+         <Image
             src={logo}
             alt="Logo"
             width={50}
             height={50}
             className="h-10 w-auto"
           />
+         </Link>
         </div>
 
         {/* Desktop Menu */}

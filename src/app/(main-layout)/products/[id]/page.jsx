@@ -122,7 +122,7 @@ export default function ProductPage() {
 
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                    <Button className='w-full    rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'20px',fontWeight:'700'}}>Buy now</Button>
+                    <Button onClick={()=>router.push('/payment')} className='w-full    rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'20px',fontWeight:'700'}}>Buy now</Button>
                     <Button className='w-full  border-1 border-secondary  ' style={{backgroundColor:'#4545454D',color:"white",height:'35px',fontSize:'20px',fontWeight:'700'}}> Add to cart</Button>
 
                     </div>
