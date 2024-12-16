@@ -2,12 +2,15 @@
 
 import { Card, Rate } from 'antd'
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 
-export function ProductCard({ title, price, description, image, rating, reviews }) {
+export function ProductCard({ title, price, description, image, rating, reviews,id }) {
   return (
-    <Card 
+   <Link href={`/products/${id}`}>
+   
+   <Card 
       className="w-full  p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow"
       bodyStyle={{ padding: "0"}}
     >
@@ -45,6 +48,7 @@ export function ProductCard({ title, price, description, image, rating, reviews 
         </div>
       </div>
     </Card>
+   </Link>
   )
 }
 

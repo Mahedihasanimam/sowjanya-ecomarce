@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
-    { label: 'Home', key: 'home' },
+    { label: 'Home', key: '/' },
     { label: 'Products', key: 'products' },
     { label: 'Blogs', key: 'blogs' },
     { label: 'About us', key: 'about-us' },
