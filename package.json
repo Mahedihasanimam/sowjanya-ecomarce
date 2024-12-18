@@ -14,6 +14,7 @@
     "next": "14.2.20",
     "react": "^18",
     "react-dom": "^18",
+    "recharts": "^2.15.0",
     "sweetalert2": "^11.15.2"
   },
   "devDependencies": {

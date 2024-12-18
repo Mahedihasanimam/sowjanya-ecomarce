@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <div className="flex items-center justify-start bg-[#000000]">
 
         <Sidebar collapsed={collapsed}/>
-       <div className="bg-[#000000] w-full ml-[270px] text-white min-h-screen">
+       <div className={`${collapsed?'ml-[70px]':'ml-[270px]'} bg-[#000000] w-full  text-white min-h-screen `}>
        {children}
        </div>
       </div>

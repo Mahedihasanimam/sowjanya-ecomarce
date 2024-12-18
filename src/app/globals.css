@@ -66,3 +66,15 @@ body {
   font-size: 16px;
   font-weight: bold;
 }
+
+.custom-select {
+  background-color: #00000066; /* Your desired background color */
+  border-radius: 8px;        /* Optional: Rounded corners */
+  height: 44px;              /* Optional: Adjust height */
+}
+.custom-select .ant-select-selector,
+.custom-select .ant-select-dropdown,
+.custom-select .ant-select-item {
+  background-color: transparent !important;
+  color: #ffffffcc !important;
+}
