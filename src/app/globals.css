@@ -78,3 +78,151 @@ body {
   background-color: transparent !important;
   color: #ffffffcc !important;
 }
+
+
+/* custom tabel   */
+
+/* Custom Table Styles */
+.custom-table .ant-table {
+  background: #1f1f1f;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  background: #262626 !important;
+  border-bottom: 1px solid #333 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.custom-table .ant-table-tbody > tr > td {
+  border-bottom: 1px solid #333 !important;
+  background: #1f1f1f !important;
+  transition: background-color 0.3s ease;
+}
+
+.custom-table .ant-table-tbody > tr:hover > td {
+  background: #2c2c2c !important;
+}
+
+.custom-pagination {
+  margin-top: 1rem !important;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.custom-pagination .ant-pagination-item,
+.custom-pagination .ant-pagination-prev,
+.custom-pagination .ant-pagination-next {
+  margin: 0 !important;
+}
+
+.custom-pagination .ant-pagination-item a,
+.custom-pagination .ant-pagination-prev a,
+.custom-pagination .ant-pagination-next a {
+  color: #fff !important;
+}
+
+.custom-pagination .ant-pagination-item-active {
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+/* Search Input Styles */
+.ant-input-search .ant-input {
+  background: #262626 !important;
+  border-color: #434343 !important;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.ant-input-search .ant-input:hover,
+.ant-input-search .ant-input:focus {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.ant-input-search .ant-input-group-addon .ant-btn {
+  background: #1890ff !important;
+  border-color: #1890ff !important;
+  color: white !important;
+}
+
+.ant-input-search .ant-input-group-addon .ant-btn:hover {
+  background: #40a9ff !important;
+  border-color: #40a9ff !important;
+}
+
+/* Select Styles */
+.ant-select-selector {
+  background: #262626 !important;
+  border-color: #434343 !important;
+  color: white !important;
+}
+
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
+  border-color: #1890ff !important;
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+.ant-select-dropdown {
+  background: #262626 !important;
+  border: 1px solid #434343 !important;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48), 0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.ant-select-item {
+  color: #fff !important;
+  transition: background-color 0.3s ease;
+}
+
+.ant-select-item-option-selected {
+  background: #1890ff !important;
+  color: #fff !important;
+}
+
+/* .ant-select-item-option-active {
+  background: #40a9ff !important;
+} */
+
+/* Button Styles */
+/* .ant-btn {
+  border-radius: 4px;
+  transition: all 0.3s ease;
+} */
+
+/* .ant-btn-primary {
+  background: #1890ff !important;
+  border-color: #1890ff !important;
+} */
+
+.ant-btn-primary:hover {
+  background: #40a9ff !important;
+  border-color: #40a9ff !important;
+}
+
+/* Custom styles for action buttons */
+.custom-table .action-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.custom-table .action-button:hover {
+  color: #1890ff;
+}
+
+.custom-table .action-button.delete:hover {
+  color: #ff4d4f;
+}
+
