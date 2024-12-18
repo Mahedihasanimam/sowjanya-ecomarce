@@ -9,7 +9,7 @@ export function ReviewCard({ author, rating, content, image }) {
   return (
     <div className="flex gap-4 p-4 rounded-lg bg-[#4545454D]">
       <Avatar icon={
-        <Image src={image} />
+        <Image alt='revimg' src={image} />
       } />
       <div className="flex-1">
         <div className="flex items-center justify-between mb-2">

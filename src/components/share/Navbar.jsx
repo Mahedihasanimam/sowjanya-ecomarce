@@ -14,7 +14,7 @@ const Navbar = () => {
     { label: 'Home', key: '/' },
     { label: 'Products', key: 'products' },
     { label: 'Blogs', key: 'blogs' },
-    { label: 'About us', key: 'about-us' },
+    { label: 'About us', key: 'aboutus' },
   ];
 
   return (

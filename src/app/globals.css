@@ -56,3 +56,13 @@ body {
 .custom-table .ant-table-tbody > tr:hover > td {
   background-color: #111 !important; /* Slightly lighter black for hover */
 }
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+  background-color: #DBBC7E;
+  padding: 31px 20px;
+}
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a:hover, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a:hover {
+  /* color: #000000; */
+  color:white;
+  font-size: 16px;
+  font-weight: bold;
+}

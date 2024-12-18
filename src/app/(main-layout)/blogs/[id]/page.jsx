@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import blogimg from '../../../../public/images/blogimg.png'
 
-const page = () => {
+const Page = () => {
 
     const router=useRouter()
     return (
@@ -44,4 +44,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

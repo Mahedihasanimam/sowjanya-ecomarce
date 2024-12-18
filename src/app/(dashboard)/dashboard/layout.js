@@ -1,16 +1,16 @@
+import MainHeader from "@/components/dashboard/MainHeader";
+import Sidebar from "@/components/dashboard/Sidebar";
 
 
 export default function RootLayout({ children }) {
   return (
 
-    <div className="flex items-center ">
-      <div>
-        sidebar
-      </div>
+    <div className="">
+     <MainHeader/>
 
-      <div>
+      <div className="flex items-center justify-start">
 
-        <div>header</div>
+        <Sidebar/>
         {children}
       </div>
     </div>
