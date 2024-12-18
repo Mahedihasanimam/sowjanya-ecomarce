@@ -1,12 +1,13 @@
 'use client'
-import { Dropdown, Image, Layout, Menu } from "antd";
+import { Dropdown, Layout, Menu } from "antd";
 
 const { Sider } = Layout;
-import logo from "../../public/images/logo.png";
+
 import avater from "../../public/images/avater.png";
 import Swal from "sweetalert2";
 import { EditOutlined, SecurityScanOutlined, UserOutlined } from '@ant-design/icons';
 import Link from "next/link";
+import Image from "next/image";
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ collapsed }) => {
@@ -40,23 +41,17 @@ const Sidebar = ({ collapsed }) => {
 
       );
   return (
-    <div className="fixed top-16 left-0 bottom-0 font-popins bg-[#201F1F]">
+    <div className="fixed top-16 left-0 bottom-0 font-popins bg-[#201F1F] rounded-[50px]">
       <Sider
-        className=" bg-[#201F1F] h-[100vh] w-[300px]"
+        className=" bg-[#201F1F] h-[100vh] w-[300px] rounded-lg"
         width={270}
         collapsedWidth={80}
         trigger={null}
         collapsible
         collapsed={collapsed}
       >
-        <div
-          className={` ${
-            collapsed ? "text-lg" : "text-3xl"
-          } font-bold mb-10 text-white text-center`}
-        >
-          {/* <image src={logo} preview={false} className="w-20 h-20 mx-auto" /> */}
-        </div>
-        <div className="flex-col items-center justify-between">
+   
+        <div className="flex-col items-center justify-between pt-6">
           <div  className="min-h-[calc(100vh-410px)] overflow-y-auto bg-[#201F1F]">
           <Menu
             theme="dark"
@@ -260,7 +255,8 @@ const Sidebar = ({ collapsed }) => {
               className="flex flex-row items-center gap-2 text-white  "
               role="menuitem"
             >
-              <image
+              <Image
+              
                 src={avater}
                 alt="avatar"
                 className="w-10 h-10 rounded-2xl"

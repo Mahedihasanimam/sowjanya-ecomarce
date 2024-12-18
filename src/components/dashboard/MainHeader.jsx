@@ -6,7 +6,8 @@ import { Button, Layout, theme } from 'antd';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { MenuOutlined } from '@ant-design/icons';
-
+import Image from 'next/image';
+import logo from "../../public/images/logo.png";
 const { Header } = Layout;
 
 const MainHeader = ({ setCollapsed, collapsed }) => {
@@ -62,7 +63,7 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
           background: colorBgContainer,
         }}
       >
-        <div className="flex justify-between pr-4 bg-primary font-popins">
+        <div className="flex justify-between pr-4 bg-primary font-popins px-8">
           <Button
             type="text"
             icon={<MenuOutlined className="text-white -ml-8 w-8 h-8" />}
@@ -76,9 +77,7 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
           />
           <div className="flex justify-between items-center w-full">
             <div className="text-white text-[34px] font-bold">
-              <span className="text-[#B0B0B0] text-[34px] font-medium">
-                {greeting}
-              </span>
+            <Image   src={logo} alt="image" className="" />
             </div>
             <div className="text-white">
               <Link href="/notification" className="text-white">
