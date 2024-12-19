@@ -93,9 +93,12 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
                             </Link>
 
                             <div className='flex items-center space-x-2'>
-                                <Avatar  size={42} style={{ backgroundColor: '#5DFD92' }}>
+                           <Link href={'/dashboard/adminprofile'}>
+                           
+                           <Avatar  size={42} style={{ backgroundColor: '#5DFD92' }}>
                                     <Image src={userimg} alt='avater'/>
                                 </Avatar>
+                           </Link>
                                 <p className='text-white text-lg'> Jhon Doe</p>
                             </div>
                         </div>

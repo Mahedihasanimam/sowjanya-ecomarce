@@ -315,3 +315,53 @@ body {
 .custom-modal .ant-modal-footer {
   border-top: none;
 }
+
+
+.ant-input:hover,
+.ant-input:focus {
+  border-color: #EAB308 !important;
+}
+
+.ant-form-item-label > label {
+  color: white !important;
+}
+
+* Ant Design Dark Mode Overrides */
+.ant-input,
+.ant-input-password {
+  background-color: rgb(39 39 42) !important;
+  border-color: rgb(63 63 70) !important;
+  color: white !important;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-password:hover .ant-input-password-input,
+.ant-input-password:focus .ant-input-password-input {
+  border-color: #EAB308 !important;
+}
+
+.ant-form-item-label > label {
+  color: white !important;
+}
+
+.ant-tabs-tab {
+  color: #9CA3AF !important;
+}
+
+.ant-tabs-tab:hover {
+  color: #EAB308 !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #EAB308 !important;
+}
+
+.ant-tabs-ink-bar {
+  background: #EAB308 !important;
+}
+
+.custom-tabs .ant-tabs-nav::before {
+  border-bottom: 1px solid #374151 !important;
+}
+
