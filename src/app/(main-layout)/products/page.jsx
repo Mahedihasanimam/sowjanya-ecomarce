@@ -140,10 +140,10 @@ export default function Page() {
   return (
     <div className=" bg-primary text-white p-8">
       <div className="container mx-auto">
-        <h3 className="!text-white text-4xl font-bold mb-4">
+        {/* <h3 className="!text-white text-4xl font-bold mb-4">
           Explore our wide range of products
-        </h3>
-        <p className="!text-[#888888] text-[16px] font-medium mb-8">
+        </h3> */}
+        {/* <p className="!text-[#888888] text-[16px] font-medium mb-8">
           We ve organized everything into easy-to-browse categories. Whether you know exactly what you re looking for or want to explore, we ve got you covered. Start browsing now!
         </p>
 
@@ -156,7 +156,7 @@ export default function Page() {
               href={category.href}
             />
           ))}
-        </div>
+        </div> */}
 
 
 
