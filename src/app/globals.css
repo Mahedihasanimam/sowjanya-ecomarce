@@ -6,9 +6,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-  font-family: "Roboto", serif;
-}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -21,10 +18,10 @@ body{
   }
 }
 
+/* Body Styling */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+
+  font-family: "Roboto", sans-serif;
 }
 /* In your global CSS or a scoped CSS file */
 .ant-input::placeholder {
@@ -56,17 +53,29 @@ body {
 .custom-table .ant-table-tbody > tr:hover > td {
   background-color: #111 !important; /* Slightly lighter black for hover */
 }
-:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+
+
+
+/* :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+  background-color: #DBBC7E;
+  padding: 31px 20px;
+} */
+.ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background-color: #DBBC7E;
   padding: 31px 20px;
 }
+
+
+
+
+
 :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a:hover, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a:hover {
   /* color: #000000; */
   color:white;
   font-size: 16px;
   font-weight: bold;
 }
-
+z
 .custom-select {
   background-color: #00000066; /* Your desired background color */
   border-radius: 8px;        /* Optional: Rounded corners */
@@ -177,20 +186,6 @@ body {
   color: #fff !important;
 }
 
-/* .ant-select-item-option-active {
-  background: #40a9ff !important;
-} */
-
-/* Button Styles */
-/* .ant-btn {
-  border-radius: 4px;
-  transition: all 0.3s ease;
-} */
-
-/* .ant-btn-primary {
-  background: #1890ff !important;
-  border-color: #1890ff !important;
-} */
 
 .ant-btn-primary:hover {
   background: #40a9ff !important;
@@ -326,13 +321,7 @@ body {
   color: white !important;
 }
 
-* Ant Design Dark Mode Overrides */
-.ant-input,
-.ant-input-password {
-  background-color: rgb(39 39 42) !important;
-  border-color: rgb(63 63 70) !important;
-  color: white !important;
-}
+
 
 .ant-input:hover,
 .ant-input:focus,

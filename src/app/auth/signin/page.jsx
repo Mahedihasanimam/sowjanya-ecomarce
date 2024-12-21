@@ -85,7 +85,7 @@ const router=useRouter()
               </Form.Item>
 
               <Link className='mb-3 text-secondary font-medium' href={'/auth/otpverify'}>
-                forget password
+                forgot password
               </Link>
             </div>
 

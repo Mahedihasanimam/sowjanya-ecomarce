@@ -20,4 +20,7 @@ module.exports = {
     },
   },
   plugins: [],
+  experimental: {
+    optimizeCss: false,
+},
 };
