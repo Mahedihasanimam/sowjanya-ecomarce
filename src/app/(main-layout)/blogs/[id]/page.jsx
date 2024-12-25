@@ -4,9 +4,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import blogimg from '../../../../public/images/blogimg.png'
+import { useGetsingleBlogbyIdQuery } from '@/redux/features/blogs/blogsApi';
 
-const Page = () => {
+const Page = ({params}) => {
 
+const {data}=useGetsingleBlogbyIdQuery(params?.id)
+console.log('bolgs details',data)
     const router=useRouter()
     return (
         <div className='bg-primary py-12'>
@@ -28,13 +31,13 @@ const Page = () => {
                     Back
                 </p>
                 <div>
-                    <Image className='w-full h-[600px]' src={blogimg}/>
+                    <Image height={2000} width={200} className='w-full h-[600px] rounded-lg' src={data?.data?.image}/>
 
                   <div className='space-y-2 pt-6'>
-                    <h3 className='text-white text-[16px] font-bold'>Winter Wardrobe Essentials for a Cozy Yet Chic Look</h3>
+                    <h3 className='text-white text-[16px] font-bold'>{data?.data?.title}</h3>
                     <p className='text-sm font-medim text-[#888888]'>Dec 10, 2024</p>
                     <p className='text-sm text-[#D1D1D1] pt-4'>
-                        Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly. Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.Dive into the latest fashion trends taking the world by storm. From bold colors to retro-inspired pieces, discover how to incorporate these must-haves into your wardrobe effortlessly.
+                        {data?.data?.description}
                     </p>
                   </div>
                 </div>

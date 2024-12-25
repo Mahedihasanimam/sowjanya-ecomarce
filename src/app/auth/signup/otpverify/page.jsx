@@ -2,16 +2,16 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Input, message } from 'antd'
-import signupimg from '../../../public/images/otpimg.png'
-import logo from '../../../public/images/mainlogo.png'
+import signupimg from '../../../../public/images/otpimg.png'
+import logo from '../../../../public/images/mainlogo.png'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForgetpasswordMutation, useVerifyEmailMutation } from '@/redux/features/users/UserApi'
 export default function OtpVerification() {
+  const [forgetpassword]=useForgetpasswordMutation()
   const searchParams=useSearchParams()
   const [email, setEmail] = useState("");
   const [verifyEmail]=useVerifyEmailMutation()
-  const [forgetpassword]=useForgetpasswordMutation()
   const [otp, setOtp] = useState(['', '', '', ''])
   const inputRefs = [
     useRef(null),
@@ -40,13 +40,13 @@ const router=useRouter()
       inputRefs[index - 1].current?.focus()
     }
   }
-  // Extract email from query parameters
-  useEffect(() => {
-    const queryEmail = searchParams.get("email");
-    if (queryEmail) {
-      setEmail(queryEmail);
-    }
-  }, [searchParams]);
+ // Extract email from query parameters
+ useEffect(() => {
+  const queryEmail = searchParams.get("email");
+  if (queryEmail) {
+    setEmail(queryEmail);
+  }
+}, [searchParams]);
   const handleVerify = async() => {
     const completeOtp = otp.join('')
     if (completeOtp.length === 4) {
@@ -55,7 +55,7 @@ const router=useRouter()
       const respons=await verifyEmail({otp:completeOtp})
       console.log(respons)
       if(respons?.data?.status==='success'){
-        router.push(`/auth/resetpassword?email=${encodeURIComponent(email)}`)
+        router.push('/auth/signin')
         message.success(respons?.data?.message)
       }
       if(respons?.error){
@@ -79,6 +79,7 @@ const router=useRouter()
       const respons=await forgetpassword({email})
       console.log(respons)
       if(respons?.data?.status==='success'){
+      
         message.success(respons?.data?.message)
       }
       if(respons?.error){
@@ -92,7 +93,7 @@ const router=useRouter()
       
      }
   }
-
+ 
   return (
 
     <div className="min-h-screen bg-primary flex">

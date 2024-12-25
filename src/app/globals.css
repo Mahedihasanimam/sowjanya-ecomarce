@@ -354,3 +354,13 @@ z
   border-bottom: 1px solid #374151 !important;
 }
 
+
+.custom-rate .ant-rate-star.ant-rate-star-full,
+.custom-rate .ant-rate-star:hover,
+.custom-rate .ant-rate-star-half {
+  color: goldenrod; /* Color for selected, hovered, or half-filled stars */
+}
+
+li.ant-rate-star.ant-rate-star-zero span svg {
+  fill: rgb(104, 104, 104);
+}

@@ -1,4 +1,5 @@
 
+import Providers from "@/lib/Providers";
 import "./globals.css";
 
 
@@ -11,7 +12,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`font-roboto antialiased`}>
-        {children}
+      <Providers>
+      {children}
+      </Providers>
       </body>
     </html>
   );

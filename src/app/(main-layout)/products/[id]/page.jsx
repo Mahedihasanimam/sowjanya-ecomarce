@@ -10,6 +10,7 @@ import product2 from '../../../../public/images/catimg2.png'
 import product3 from '../../../../public/images/fashion2.png'
 import { useRouter } from 'next/navigation'
 import avater from '../../../../public/images/avater.png'
+import { useGetSingleproductByidQuery } from '@/redux/features/product/productApi'
 const { Title, Paragraph } = Typography
 
 const productImages = [
@@ -79,8 +80,15 @@ const reviews = [
     },
     // Add more reviews as needed...
 ]
-export default function ProductPage() {
+export default function ProductPage({params}) {
+    const {data,isLoading,isError}=useGetSingleproductByidQuery(params?.id)
+    console.log('params id ',params?.id)
+    console.log('data',data)
     const router = useRouter()
+
+
+
+
     return (
         <div className="bg-primary text-white mb-[88px]">
             <div className="container mx-auto p-4 md:p-8">
@@ -101,7 +109,7 @@ export default function ProductPage() {
                 </p>
 
                 <div className="">
-                    <ProductGallery images={productImages} />
+                    <ProductGallery images={ data?.product?.image} /> 
 
                 </div>
 
@@ -110,20 +118,20 @@ export default function ProductPage() {
                         <div className="mb-8">
                     <div className='flex items-center justify-between'>
                     <Title level={1} className="!text-white !text-[28px] font-bold md:!text-4xl mb-4">
-                                Colorful lather denim jacket
+                               {data?.product?.title}
                             </Title>
-                            <div className="text-2xl font-bold mb-4 text-secondary">$3,400.80</div>
+                            <div className="text-2xl font-bold mb-4 text-secondary">$  {data?.product?.price}</div>
 
                     </div>
                             <Paragraph className="!text-[#888888] text-[16px] font-medium">
-                                Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.
+                            {data?.product?.description}
                             </Paragraph>
                         </div>
 
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 mb-8">
                     <Button onClick={()=>router.push('/payment')} className='w-full    rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'20px',fontWeight:'700'}}>Buy now</Button>
-                    <Button className='w-full  border-1 border-secondary  ' style={{backgroundColor:'#4545454D',color:"white",height:'35px',fontSize:'20px',fontWeight:'700'}}> Add to cart</Button>
+                    <Button  className='w-full  border-1 border-secondary  ' style={{backgroundColor:'#4545454D',color:"white",height:'35px',fontSize:'20px',fontWeight:'700'}}> Add to cart</Button>
 
                     </div>
 

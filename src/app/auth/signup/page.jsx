@@ -1,17 +1,31 @@
 'use client'
 
 import { useState } from 'react'
-import { Form, Input, Checkbox } from 'antd'
+import { Form, Input, Checkbox, message } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 import signupimg from '../../../public/images/signupimg.png'
 import logo from '../../../public/images/mainlogo.png'
+import { useRegisterUserMutation } from '@/redux/features/users/UserApi'
+import { useRouter } from 'next/navigation'
 
 export default function SignupPage() {
   const [form] = Form.useForm()
-
-  const onFinish = (values) => {
+  const router=useRouter()
+const [registerUser]=useRegisterUserMutation()
+  const onFinish = async(values) => {
     console.log('Form values:', values)
+    const respons= await registerUser(values)
+    console.log('response',respons)
+    console.log('response',values?.email)
+    if(respons?.data?.status==='success'){
+      message.success(respons?.data?.message)
+      router.push(`/auth/signup/otpverify?email=${encodeURIComponent(values?.email)}`)
+    }
+    if(respons?.error){
+      message.error(respons?.error?.data?.message?.email[0])
+     
+    }
   }
 
   return (

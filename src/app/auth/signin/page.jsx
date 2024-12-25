@@ -1,20 +1,52 @@
 'use client'
 
 import { useState } from 'react'
-import { Form, Input, Checkbox } from 'antd'
+import { Form, Input, Checkbox, message } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 import signupimg from '../../../public/images/loginimg.png'
 import logo from '../../../public/images/mainlogo.png'
 import { useRouter } from 'next/navigation'
+import { useLoginUserMutation } from '@/redux/features/users/UserApi'
+import Cookies from 'js-cookie'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from '@/redux/features/users/userSlice'
 
 export default function SigninPage() {
   const [form] = Form.useForm()
-const router=useRouter()
-  const onFinish = (values) => {
-    console.log('Form values:', values)
-    router.push('/')
-  }
+  const [loginUser] = useLoginUserMutation()
+  const router = useRouter()
+  const dispatch = useDispatch()
+  // const user = useSelector((state) => state.user.user);
+  // console.log('user', user)
+
+  const onFinish = async (values) => {
+    console.log("Form values:", values);
+
+    try {
+      // Wait for the mutation to resolve
+      const respons = await loginUser(values).unwrap();
+
+      console.log("response", respons);
+
+      // Check for success and handle navigation
+      if (respons?.access_token) {
+        message.success('login success');
+        Cookies.set("token", respons?.access_token, { expires: 7 });
+        dispatch(setUser(respons));
+        router.push("/");
+      }
+
+      // Handle errors returned in the response
+      if (respons?.error) {
+        message.error(respons?.error?.error);
+      }
+    } catch (error) {
+      // Catch and display any errors
+      console.error("Error during login:", error);
+      message.error(error?.data?.error ||"An error occurred during login. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black flex">
@@ -75,7 +107,7 @@ const router=useRouter()
             <div className='flex items-center justify-between'>
               <Form.Item
 
-                name="Rememberme"
+
                 valuePropName="Remember me"
 
               >
@@ -83,8 +115,8 @@ const router=useRouter()
                   Remember me
                 </Checkbox>
               </Form.Item>
-            
-              <Link className='mb-3 text-secondary font-medium' href={'/auth/otpverify'}>
+
+              <Link className='mb-3 text-secondary font-medium' href={'/auth/verifyemail'}>
                 forgot password
               </Link>
             </div>
