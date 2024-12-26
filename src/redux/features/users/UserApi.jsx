@@ -8,7 +8,7 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      invalidatesTags:['user']
+      invalidatesTags: ['user']
     }),
 
 
@@ -26,17 +26,17 @@ const userApi = api.injectEndpoints({
         body: data,
       }),
     }),
-    
+
     resetpassword: builder.mutation({
       query: (data) => ({
         url: "/auth/reset-password",
         method: "POST",
-       
-        
+
+
         body: data,
       }),
     }),
-    
+
 
     loginUser: builder.mutation({
       query: (user) => ({
@@ -47,7 +47,7 @@ const userApi = api.injectEndpoints({
       invalidatesTags: ['user'],
     }),
 
-    
+
 
     OtpVerify: builder.mutation({
       query: (otp) => ({
@@ -74,6 +74,33 @@ const userApi = api.injectEndpoints({
       providesTags: ['user'],
     }),
 
+
+
+
+    getmyorderList: builder.query({
+      query: (token) => ({
+        url: '/my-order-list',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['user'],
+    }),
+
+
+    leaveAreview: builder.mutation({
+      query: (alldata) => ({
+        url: '/reviews',
+        method: 'POST',
+        body: alldata,
+      }),
+      // Add the tag to invalidate or update the cache for review-related data
+      invalidatesTags: [{ type: 'Review', id: 'LIST' }],
+    }),
+
+
+
+
     updateProfile: builder.mutation({
       query: (data) => ({
         url: "/users/update-profile-by-user",
@@ -85,7 +112,7 @@ const userApi = api.injectEndpoints({
 
     getNotifiByUserId: builder.query({
       query: (id) => `/users/notifications-by-user/${id}`,
-      providesTags:['notifications']
+      providesTags: ['notifications']
     }),
 
 
@@ -112,4 +139,6 @@ export const {
   useUpdateProfileMutation,
   useForgetpasswordMutation,
   useResetpasswordMutation,
+  useGetmyorderListQuery,
+  useLeaveAreviewMutation,
 } = userApi;

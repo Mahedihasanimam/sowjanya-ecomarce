@@ -1,6 +1,10 @@
 
+'use client'
 import { BlogCard } from '@/components/util/BlogCard';
 import product from '../../../public/images/blogimg.png'
+import { Button, Card, Skeleton } from 'antd';
+import { useGetallBlogsQuery } from '@/redux/features/blogs/blogsApi';
+import { useState } from 'react';
 const products = [
     {
         id: 1,
@@ -65,7 +69,15 @@ const products = [
 
 
 ];
-const page = () => {
+const BlogPage = () => {
+
+    const [visibleCount, setVisibleCount] = useState(6);
+    const {data,isLoading}=useGetallBlogsQuery()
+    
+    
+    const handleLoadMore = () => {
+        setVisibleCount(data?.blogs?.data?.length || 0);
+    }
     return (
         <div className="bg-primary py-12  ">
             <div className="container mx-auto ">
@@ -80,16 +92,43 @@ const page = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 ">
-                {products.map((product) => (
-                    <BlogCard
-                        key={product.id}
-                        {...product}
-                    />
-                ))}
+                
+        {isLoading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <Card key={index}>
+
+                  <Skeleton active   />
+                </Card>
+              ))
+            :data?.blogs?.data?.slice(-visibleCount)?.map((product) => (
+              <BlogCard
+                key={product.id}
+                {...product}
+              />
+            ))}
             </div>
+
+
+            {visibleCount < (data?.blogs?.data?.length || 0) && ( // Show the button only if there are more items
+          <div className="max-w-md mx-auto py-[72px]">
+            <Button
+              className="w-full rounded-none"
+              style={{
+                backgroundColor: '#DBBC7E',
+                color: '#262626',
+                height: '35px',
+                fontSize: '16px',
+                fontWeight: '500',
+              }}
+              onClick={handleLoadMore}
+            >
+              Load more
+            </Button>
+          </div>
+        )}
             </div>
         </div>
 
     );
 };
-export default page
+export default BlogPage

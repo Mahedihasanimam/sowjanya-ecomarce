@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
+import { useRouter } from 'next/navigation';
 
 export default function ChangePasswordPage() {
     const [form] = Form.useForm();
@@ -13,7 +14,7 @@ export default function ChangePasswordPage() {
     const [visibleCurrent, setVisibleCurrent] = useState(false);
     const [visibleNew, setVisibleNew] = useState(false);
     const [visibleRewrite, setVisibleRewrite] = useState(false);
-
+const router=useRouter()
     // Form submit handler
     const onFinish = (values) => {
         console.log('Password values:', values);
@@ -24,9 +25,9 @@ export default function ChangePasswordPage() {
             <div className="container mt-8 mx-auto">
                 {/* Header */}
                 <div className="flex items-center mb-8">
-                    <Link href="/profile" className="text-gray-400 hover:text-white">
+                    <div onClick={router.back()}  className="text-gray-400 hover:text-white">
                         <ArrowLeftOutlined className="text-xl" />
-                    </Link>
+                    </div>
                     <div className="ml-4">
                         <h1 className="text-2xl font-semibold">Change Password</h1>
                         <p className="text-sm text-gray-500">

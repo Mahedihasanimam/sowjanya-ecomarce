@@ -50,7 +50,7 @@ export default function EditProfilePage() {
             <div className="container mt-8 mx-auto">
                 {/* Header */}
                 <div className="flex items-center mb-8">
-                    <Link href="/profile" className="text-gray-400 hover:text-white">
+                    <Link href="/myprofile" className="text-gray-400 hover:text-white">
                         <ArrowLeftOutlined className="text-xl" />
                     </Link>
                     <div className="ml-4">

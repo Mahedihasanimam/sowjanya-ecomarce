@@ -6,6 +6,7 @@ const productApi = api.injectEndpoints({
 
 
 
+
   getallproduct:builder.query({
     query:()=>({
       url:`/product-view`,

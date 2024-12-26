@@ -1,3 +1,4 @@
+'use client'
 import { CategoryCard } from '@/components/products/CategoryCard'
 import catimg from "../../../public/images/catimg.png"
 import catimg2 from "../../../public/images/catimg2.png"
@@ -7,7 +8,10 @@ import { AntiFashionCard } from '@/components/util/AntiFashionCard'
 
 import product from '../../../public/images/fashoion.png'
 import product2 from '../../../public/images/fashion2.png'
-import { Button } from 'antd'
+import { Button, Card, Skeleton } from 'antd'
+import { useGetallproductQuery } from '@/redux/features/product/productApi'
+import { ProductCard } from '@/components/util/product-card'
+import { useState } from 'react'
 
 const products = [
   {
@@ -93,86 +97,95 @@ const products = [
 
 ];
 
-const categories = [
-  {
-    title: 'Anti fashion',
-    image: catimg2,
-    href: '/categories/anti-fashion'
-  },
-  {
-    title: 'Flappers fashion',
-    image: catimg2,
-    href: '/categories/flappers-fashion'
-  },
-  {
-    title: 'Gothic fashion',
-    image: catimg,
-    href: '/categories/gothic-fashion'
-  },
-  {
-    title: 'Fetish clothing',
-    image: catimg2,
-    href: '/categories/fetish-clothing'
-  },
-  {
-    title: 'Hip hop fashion',
-    image: catimg,
-    href: '/categories/hip-hop-fashion'
-  },
-  {
-    title: 'Lolita fashion',
-    image: catimg,
-    href: '/categories/lolita-fashion'
-  },
-  {
-    title: 'Punk fashion',
-    image: catimg2,
-    href: '/categories/punk-fashion'
-  },
-  {
-    title: 'Casual wear',
-    image: catimg,
-    href: '/categories/casual-wear'
-  }
-]
+// const categories = [
+//   {
+//     title: 'Anti fashion',
+//     image: catimg2,
+//     href: '/categories/anti-fashion'
+//   },
+//   {
+//     title: 'Flappers fashion',
+//     image: catimg2,
+//     href: '/categories/flappers-fashion'
+//   },
+//   {
+//     title: 'Gothic fashion',
+//     image: catimg,
+//     href: '/categories/gothic-fashion'
+//   },
+//   {
+//     title: 'Fetish clothing',
+//     image: catimg2,
+//     href: '/categories/fetish-clothing'
+//   },
+//   {
+//     title: 'Hip hop fashion',
+//     image: catimg,
+//     href: '/categories/hip-hop-fashion'
+//   },
+//   {
+//     title: 'Lolita fashion',
+//     image: catimg,
+//     href: '/categories/lolita-fashion'
+//   },
+//   {
+//     title: 'Punk fashion',
+//     image: catimg2,
+//     href: '/categories/punk-fashion'
+//   },
+//   {
+//     title: 'Casual wear',
+//     image: catimg,
+//     href: '/categories/casual-wear'
+//   }
+// ]
 
 export default function Page() {
+
+    const { data, isLoading, isError } = useGetallproductQuery();
+    const [visibleCount, setVisibleCount] = useState(8); // Initial number of products to display
+
+    // Function to load more items
+    const handleLoadMore = () => {
+      setVisibleCount(data?.products?.data?.length || 0); // Show all items
+    };
   return (
     <div className=" bg-primary text-white p-8">
       <div className="container mx-auto">
-        {/* <h3 className="!text-white text-4xl font-bold mb-4">
-          Explore our wide range of products
-        </h3> */}
-        {/* <p className="!text-[#888888] text-[16px] font-medium mb-8">
-          We ve organized everything into easy-to-browse categories. Whether you know exactly what you re looking for or want to explore, we ve got you covered. Start browsing now!
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-4">
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.title}
-              title={category.title}
-              image={category.image}
-              href={category.href}
-            />
-          ))}
-        </div> */}
+   
 
 
 
         <h1 className="text-4xl font-bold  text-white py-9">Enssentials</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <AntiFashionCard
-              key={product.id}
-              {...product}
-            />
-          ))}
-        </div>
-          <div className="max-w-md mx-auto py-[72px]">
+        {isLoading
+            ? Array.from({ length: 8 }).map((_, index) => (
+                <Card key={index}>
 
-        <Button className='w-full   rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'16px',fontWeight:'500'}}>Load more</Button>
+                  <Skeleton active   />
+                </Card>
+              ))
+            : data?.products?.data?.slice(0, visibleCount).map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))}
+        </div>
+        {visibleCount < (data?.products?.data?.length || 0) && ( // Show the button only if there are more items
+          <div className="max-w-md mx-auto py-[72px]">
+            <Button
+              className="w-full rounded-none"
+              style={{
+                backgroundColor: '#DBBC7E',
+                color: '#262626',
+                height: '35px',
+                fontSize: '16px',
+                fontWeight: '500',
+              }}
+              onClick={handleLoadMore}
+            >
+              Load more
+            </Button>
           </div>
+        )}
 
       </div>
 
