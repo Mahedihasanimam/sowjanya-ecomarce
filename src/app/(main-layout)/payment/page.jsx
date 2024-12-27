@@ -1,10 +1,7 @@
 'use client'
 
 import { Button, Rate, Typography } from 'antd'
-import { ArrowLeftOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import Link from 'next/link'
 import { ProductGallery } from '@/components/util/ProductGallery'
-import { ReviewCard } from '@/components/util/ReviewCard'
 import product1 from '../../../public/images/fashoion.png'
 import product2 from '../../../public/images/catimg2.png'
 import product3 from '../../../public/images/fashion2.png'
