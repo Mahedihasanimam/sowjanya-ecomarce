@@ -1,9 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Cookies from 'js-cookie';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import Cookies from "js-cookie";
 
 export const api = createApi({
-  reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://192.168.12.79:8000/api/' ,
+  reducerPath: "api",
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://192.168.12.79:8000/api/",
     prepareHeaders: (headers) => {
       const token = Cookies.get("token"); // Correct usage
       if (token) {
@@ -14,12 +16,9 @@ export const api = createApi({
       }
       return headers;
     },
-}),
-tagTypes: [
-  'user',
-],
+  }),
+  tagTypes: ["user", "blog", "faq", "about"],
   endpoints: () => ({}),
 });
 
-
-export const imageUrl = "http://192.168.12.158:4000/"
+export const imageUrl = "http://192.168.12.158:4000/";

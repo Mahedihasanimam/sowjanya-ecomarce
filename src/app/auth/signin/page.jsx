@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Form, Input, Checkbox, message } from 'antd'
-import Image from 'next/image'
-import Link from 'next/link'
-import signupimg from '../../../public/images/loginimg.png'
-import logo from '../../../public/images/mainlogo.png'
-import { useRouter } from 'next/navigation'
-import { useLoginUserMutation } from '@/redux/features/users/UserApi'
-import Cookies from 'js-cookie'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUser } from '@/redux/features/users/userSlice'
+import { Checkbox, Form, Input, message } from "antd";
+
+import { useLoginUserMutation } from "@/redux/features/users/UserApi";
+import { setUser } from "@/redux/features/users/userSlice";
+import Cookies from "js-cookie";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import signupimg from "../../../public/images/loginimg.png";
+import logo from "../../../public/images/mainlogo.png";
 
 export default function SigninPage() {
-  const [form] = Form.useForm()
-  const [loginUser] = useLoginUserMutation()
-  const router = useRouter()
-  const dispatch = useDispatch()
+  const [form] = Form.useForm();
+  const [loginUser] = useLoginUserMutation();
+  const router = useRouter();
+  const dispatch = useDispatch();
   // const user = useSelector((state) => state.user.user);
   // console.log('user', user)
 
@@ -31,10 +31,15 @@ export default function SigninPage() {
 
       // Check for success and handle navigation
       if (respons?.access_token) {
-        message.success('login success');
+        message.success("login success");
         Cookies.set("token", respons?.access_token, { expires: 7 });
         dispatch(setUser(respons));
-        router.push("/");
+        console.log(respons);
+        if (respons?.user_information?.role === "ADMIN") {
+          return router.push("/dashboard");
+        } else if (respons?.user_information?.role === "USER") {
+          router.push("/");
+        }
       }
 
       // Handle errors returned in the response
@@ -44,7 +49,10 @@ export default function SigninPage() {
     } catch (error) {
       // Catch and display any errors
       console.error("Error during login:", error);
-      message.error(error?.data?.error ||"An error occurred during login. Please try again.");
+      message.error(
+        error?.data?.error ||
+          "An error occurred during login. Please try again."
+      );
     }
   };
 
@@ -54,21 +62,18 @@ export default function SigninPage() {
       <div className="w-full lg:w-1/2 p-8 md:p-16 flex flex-col">
         {/* Logo */}
         <div className="mb-4 mx-auto">
-          <Image
-            src={logo}
-            alt="Logo"
-            width={200}
-            height={200}
-            className=" "
-          />
+          <Image src={logo} alt="Logo" width={200} height={200} className=" " />
         </div>
 
         {/* Form Content */}
         <div className="max-w-md w-full mx-auto">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome back!</h1>
-            <p className="text-gray-400 mb-8">Please enter the below information to logged in.</p>
-
+            <h1 className="text-3xl font-bold text-white mb-2">
+              Welcome back!
+            </h1>
+            <p className="text-gray-400 mb-8">
+              Please enter the below information to logged in.
+            </p>
           </div>
           <Form
             form={form}
@@ -80,43 +85,42 @@ export default function SigninPage() {
               name="email"
               label={<span className="text-white">Email</span>}
               rules={[
-                { required: true, message: 'Please input your email!' },
-                { type: 'email', message: 'Please enter a valid email!' }
+                { required: true, message: "Please input your email!" },
+                { type: "email", message: "Please enter a valid email!" },
               ]}
             >
               <Input
-                style={{ backgroundColor: '#8888884D', color: '#D1D1D1' }}
+                style={{ backgroundColor: "#8888884D", color: "#D1D1D1" }}
                 placeholder="test21@gmail.com"
                 className="bg-[#1a1a1a] placeholder:text-[#888888]  border-[#333] text-white h-12 rounded"
               />
             </Form.Item>
 
-
             <Form.Item
               name="password"
               label={<span className="text-white">Password</span>}
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[
+                { required: true, message: "Please input your password!" },
+              ]}
             >
               <Input.Password
-                style={{ backgroundColor: '#8888884D', color: '#D1D1D1' }}
+                style={{ backgroundColor: "#8888884D", color: "#D1D1D1" }}
                 placeholder="Enter password"
                 className="bg-[#1a1a1a] placeholder:text-[#888888]  border-[#333]  h-12 rounded"
               />
             </Form.Item>
 
-            <div className='flex items-center justify-between'>
-              <Form.Item
-
-
-                valuePropName="Remember me"
-
-              >
+            <div className="flex items-center justify-between">
+              <Form.Item valuePropName="Remember me">
                 <Checkbox className="text-white font-medium">
                   Remember me
                 </Checkbox>
               </Form.Item>
 
-              <Link className='mb-3 text-secondary font-medium' href={'/auth/verifyemail'}>
+              <Link
+                className="mb-3 text-secondary font-medium"
+                href={"/auth/verifyemail"}
+              >
                 forgot password
               </Link>
             </div>
@@ -133,7 +137,10 @@ export default function SigninPage() {
 
           <p className="text-gray-400 text-center mt-6">
             Don’t have an account?
-            <Link href="/auth/signup" className="text-[#D4B57E] hover:text-[#C4A56E]">
+            <Link
+              href="/auth/signup"
+              className="text-[#D4B57E] hover:text-[#C4A56E]"
+            >
               Sign up
             </Link>
           </p>
@@ -151,6 +158,5 @@ export default function SigninPage() {
         />
       </div>
     </div>
-  )
+  );
 }
-
