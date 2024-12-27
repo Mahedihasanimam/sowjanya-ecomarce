@@ -10,7 +10,7 @@ import product2 from '../../../../public/images/catimg2.png'
 import product3 from '../../../../public/images/fashion2.png'
 import { useRouter } from 'next/navigation'
 import avater from '../../../../public/images/avater.png'
-import { useGetSingleproductByidQuery } from '@/redux/features/product/productApi'
+import { useGetreviewByproductidQuery, useGetSingleproductByidQuery } from '@/redux/features/product/productApi'
 const { Title, Paragraph } = Typography
 
 const productImages = [
@@ -86,6 +86,12 @@ export default function ProductPage({params}) {
     console.log('data',data)
     const router = useRouter()
 
+    const {data:reviewdata,isLoading:reviewisLoading,isError:reviewisError}=useGetreviewByproductidQuery(params?.id)
+
+    if(isLoading || reviewisLoading){
+        return <div>Loading...</div>
+    }
+    console.log('reviewdata',reviewdata)
 
 
 
@@ -149,7 +155,7 @@ export default function ProductPage({params}) {
                     </div>
 
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                        {reviews.map((review, index) => (
+                        {reviewdata?.reviews?.data?.map((review, index) => (
                             <ReviewCard key={index} {...review} />
                         ))}
                     </div>

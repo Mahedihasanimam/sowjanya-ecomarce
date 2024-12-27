@@ -21,8 +21,15 @@ const productApi = api.injectEndpoints({
       method:'GET'
     }),
     providesTags:['product']
-  })
+  }),
 
+  getreviewByproductid:builder.query({
+    query:(id)=>({
+      url:`/review-by-product?product_id=${id}`,
+      method:'GET'
+    }),
+    providesTags:['product']
+  })
 
 
   }),
@@ -32,6 +39,7 @@ export const {
 
 useGetallproductQuery,
 useGetSingleproductByidQuery,
+useGetreviewByproductidQuery,
 
 
 } = productApi;
