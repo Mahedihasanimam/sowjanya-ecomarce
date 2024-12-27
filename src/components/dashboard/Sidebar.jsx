@@ -29,6 +29,7 @@ const Sidebar = ({ collapsed }) => {
   };
 
   const menus = (
+
     <Menu style={{ width: "200px" }}>
       <Menu.Item key="0">
         {" "}
@@ -99,6 +100,7 @@ const Sidebar = ({ collapsed }) => {
           <span> Change password</span>
         </Link>{" "}
       </Menu.Item>
+
     </Menu>
   );
   return (

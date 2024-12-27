@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Rate, Typography } from 'antd'
+import { Button, message, Rate, Typography } from 'antd'
 import { ArrowLeftOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { ProductGallery } from '@/components/util/ProductGallery'
@@ -13,77 +13,11 @@ import avater from '../../../../public/images/avater.png'
 import { useGetreviewByproductidQuery, useGetSingleproductByidQuery } from '@/redux/features/product/productApi'
 const { Title, Paragraph } = Typography
 
-const productImages = [
-    {
-        src: product1,
-        alt: 'Denim jacket back view with patches'
-    },
-    {
-        src: product2,
-        alt: 'Denim jacket collar detail'
-    },
 
-    {
-        src: product1,
-        alt: 'Denim jacket front view'
-    }
-]
-
-const reviews = [
-    {
-        id:'1',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    {
-        id:'2',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    {
-        id:'3',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    {
-        id:'4',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    {
-        id:'5',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    {
-        id:'6',
-        author: 'Chris Sayle',
-        rating: 4.5,
-        content: 'Lorem ipsum dolor sit amet consectetur. Auctor amet ipsum in nisi. Diam et sed amet mauris adipiscing adipiscing in dignissim sed eu. Amet et amet consectetur. Duis viterra facilisis purus purus tempor pharetra netus.',
-        date: '2 days ago',
-        image:avater
-    },
-    // Add more reviews as needed...
-]
 export default function ProductPage({params}) {
     const {data,isLoading,isError}=useGetSingleproductByidQuery(params?.id)
     console.log('params id ',params?.id)
-    console.log('data',data)
+    console.log('productsdetails',data)
     const router = useRouter()
 
     const {data:reviewdata,isLoading:reviewisLoading,isError:reviewisError}=useGetreviewByproductidQuery(params?.id)
@@ -93,7 +27,29 @@ export default function ProductPage({params}) {
     }
     console.log('reviewdata',reviewdata)
 
+const addtoCart=(product)=>{
 
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const productExists = cartItems.find(item => item.id === product?.id);
+    if (productExists) {
+        const updatedCartItems = cartItems.map(item => {
+            if (item.id === product?.id) {
+                return {
+                    ...item,
+                    quantity: item.quantity + 1
+                }
+            }
+            return item;
+        })
+        localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    } else {
+        localStorage.setItem('cartItems', JSON.stringify([...cartItems, {...product, quantity: 1}]));
+    }
+
+    message.success('Product added to cart')
+    console.log('add to cart')
+
+}
 
     return (
         <div className="bg-primary text-white mb-[88px]">
@@ -136,21 +92,20 @@ export default function ProductPage({params}) {
 
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                    <Button onClick={()=>router.push('/payment')} className='w-full    rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'20px',fontWeight:'700'}}>Buy now</Button>
-                    <Button  className='w-full  border-1 border-secondary  ' style={{backgroundColor:'#4545454D',color:"white",height:'35px',fontSize:'20px',fontWeight:'700'}}> Add to cart</Button>
+                    <Button onClick={()=>router.push(`/products/payment/${data?.product?.id}` )} className='w-full    rounded-none' style={{backgroundColor:'#DBBC7E',color:"#262626",height:'35px',fontSize:'20px',fontWeight:'700'}}>Buy now</Button>
+                    <Button  onClick={()=>addtoCart(data?.product)} className='w-full  border-1 border-secondary  ' style={{backgroundColor:'#4545454D',color:"white",height:'35px',fontSize:'20px',fontWeight:'700'}}> Add to cart</Button>
 
                     </div>
 
                 </div>
-
                 <div className="mt-12 bg-[#4545454D] p-4">
                     <div className="flex items-center justify-between gap-2 mb-6">
                         <Title level={2} className="!text-white !text-[28px] !mb-0">
                             Review & ratings
                         </Title>
                         <div>
-                        <Rate count={1} disabled defaultValue={4.5} className="text-xl" />
-                        <span className="text-white text-xl">4.5</span>
+                        <Rate count={1} disabled defaultValue={reviewdata?.average_rating} className="text-xl" />
+                        <span className="text-white text-xl">{reviewdata?.average_rating}</span>
                         </div>
                     </div>
 
