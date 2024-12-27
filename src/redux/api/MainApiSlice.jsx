@@ -9,7 +9,7 @@ export const api = createApi({
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
         headers.set("Accept", `*/*`);
-        headers.set("Content-Type", `application/json`);
+        // headers.set("Content-Type", `application/json`);
         headers.set("Access-Control-Allow-Origin", `*/*`);
       }
       return headers;

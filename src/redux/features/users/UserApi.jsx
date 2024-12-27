@@ -103,11 +103,26 @@ const userApi = api.injectEndpoints({
 
     updateProfile: builder.mutation({
       query: (data) => ({
-        url: "/users/update-profile-by-user",
-        method: "PATCH",
+        url: '/auth/profile-update',
+        method: 'POST',
+     
         body: data,
       }),
-      invalidatesTags: ['user'], // Invalidate user to refetch
+    }),
+
+
+
+
+
+
+
+
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: '/auth/change-password',
+        method: 'POST',
+        body: data,
+      }),
     }),
 
     getNotifiByUserId: builder.query({
@@ -115,7 +130,9 @@ const userApi = api.injectEndpoints({
       providesTags: ['notifications']
     }),
 
-
+    getAbotUs: builder.query({
+      query: () => "/aboutus",
+    }), 
 
     // contactUs: builder.mutation({
     //   query: (data) => ({
@@ -141,4 +158,6 @@ export const {
   useResetpasswordMutation,
   useGetmyorderListQuery,
   useLeaveAreviewMutation,
+  useGetAbotUsQuery,
+  useUpdatePasswordMutation,
 } = userApi;

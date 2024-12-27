@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeftOutlined, EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { useRouter } from 'next/navigation';
+import { useUpdatePasswordMutation } from '@/redux/features/users/UserApi';
 
-export default function ChangePasswordPage() {
+const Page =()=> {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 
@@ -14,10 +15,23 @@ export default function ChangePasswordPage() {
     const [visibleCurrent, setVisibleCurrent] = useState(false);
     const [visibleNew, setVisibleNew] = useState(false);
     const [visibleRewrite, setVisibleRewrite] = useState(false);
+
+    const [updatepassword]=useUpdatePasswordMutation()
 const router=useRouter()
     // Form submit handler
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
         console.log('Password values:', values);
+
+        const respons=await updatepassword(values)
+        console.log(respons)
+        if(respons?.data?.status==='success'){
+            message.success('Password updated successfully');
+            router.push('/myprofile')
+            return
+        }
+        else{
+            message.error('Password update failed');
+        }
     };
 
     return (
@@ -25,8 +39,8 @@ const router=useRouter()
             <div className="container mt-8 mx-auto">
                 {/* Header */}
                 <div className="flex items-center mb-8">
-                    <div onClick={router.back()}  className="text-gray-400 hover:text-white">
-                        <ArrowLeftOutlined className="text-xl" />
+                    <div  className="text-gray-400 hover:text-white">
+                        <ArrowLeftOutlined onClick={()=>router.back()} className="text-xl" />
                     </div>
                     <div className="ml-4">
                         <h1 className="text-2xl font-semibold">Change Password</h1>
@@ -50,7 +64,7 @@ const router=useRouter()
                     >
                         {/* Current Password */}
                         <Form.Item
-                            name="currentPassword"
+                            name="current_password"
                             label={<span className="text-white">Current Password</span>}
                             rules={[{ required: true, message: 'Please enter your current password' }]}
                         >
@@ -70,7 +84,7 @@ const router=useRouter()
 
                         {/* New Password */}
                         <Form.Item
-                            name="newPassword"
+                            name="new_password"
                             label={<span className="text-white">New Password</span>}
                             rules={[
                                 { required: true, message: 'Please enter your new password' },
@@ -93,14 +107,14 @@ const router=useRouter()
 
                         {/* Rewrite New Password */}
                         <Form.Item
-                            name="rewritePassword"
+                            name="new_password_confirmation"
                             label={<span className="text-white">Rewrite New Password</span>}
-                            dependencies={['newPassword']}
+                            dependencies={['new_password']}
                             rules={[
                                 { required: true, message: 'Please confirm your new password' },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
-                                        if (!value || getFieldValue('newPassword') === value) {
+                                        if (!value || getFieldValue('new_password') === value) {
                                             return Promise.resolve();
                                         }
                                         return Promise.reject(
@@ -142,3 +156,5 @@ const router=useRouter()
         </div>
     );
 }
+
+export default Page;

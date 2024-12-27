@@ -134,7 +134,7 @@ const ProfilePage = () => {
                             src={user?.image}
                             width={180}
                             height={180}
-                            alt="Profile Picture"
+                            alt="Profile h-[180px] Picture"
                             className="rounded-full"
                         />
                         <div className="absolute bottom-2 right-2 cursor-pointer">
