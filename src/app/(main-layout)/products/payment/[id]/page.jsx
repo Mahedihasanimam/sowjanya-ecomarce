@@ -29,6 +29,9 @@ export default function ProductPage({ params }) {
     return <div>Error fetching product details!</div>;
   }
 
+
+  // console.log(data?.product);
+
   return (
     <div className="bg-primary text-white mb-[88px]">
       <div className="container mx-auto p-4 md:p-8">
@@ -59,7 +62,8 @@ export default function ProductPage({ params }) {
           <Step4 />
         </Elements> */}
 
-        <PaymentForm/>
+        {/* <PaymentForm/> */}
+        <CheckoutForm product={data?.product}/>
 
 
      
