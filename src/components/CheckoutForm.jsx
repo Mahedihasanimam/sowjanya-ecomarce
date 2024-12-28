@@ -1,55 +1,180 @@
-import React, { useState } from "react";
-import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
-import Swal from "sweetalert2"; // for showing success messages
-import { message } from "antd";
+'use client';
 
-const CheckoutForm = ({ createdAppointment, setCurrentStep, setIsPaid }) => {
+import React, { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Form, Input, Button, message } from 'antd';
+import { useCreatePaymentIntentMutation, usePaymentSuccessMutation } from '@/redux/features/payment/productApi';
+import { useSelector } from 'react-redux';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+const CheckoutForm = ({ product }) => {
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-  const [errorMessage, setErrorMessage] = useState(null);
 
-  // Handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+
+  const user = useSelector((state) => state.user.user);
+
+
+  const [createIntent] = useCreatePaymentIntentMutation();
+
+  const [paymentSuccess] = usePaymentSuccessMutation();
+
+  const onFinish = async (values) => {
+    setLoading(true);
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet
+      console.error('Stripe.js has not loaded yet.');
+      setLoading(false);
       return;
     }
 
-    // Get the PaymentElement component and confirm payment
-    const paymentElement = elements.getElement(PaymentElement);
+    const card = elements.getElement(CardElement);
+    if (!card) {
+      console.error('CardElement not found.');
+      setLoading(false);
+      return;
+    }
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/payment/success`, // callback URL for success
-      },
+    const res = await createIntent({
+      amount: 100,
+      payment_method: "pm_card_visa"
     });
 
-    if (error) {
-      // Display error message if payment failed
-      setErrorMessage(error.message);
-    } else if (paymentIntent.status === "succeeded") {
-      // Payment successful
-      setIsPaid(true);
-      setCurrentStep("payment-complete");
-      message.success("Payment Successful!");
+
+
+
+
+    //  console.log(values,product);
+
+    if (res.data?.data?.client_secret) {
+      console.log(res.data.data.client_secret)
+
+
+      const clientSecret = res.data.data.client_secret;
+      const paymentMethodId = res.data.data.payment_method;
+
+      const paymentIntent = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: paymentMethodId,
+      });
+
+
+      if (paymentIntent.paymentIntent?.status === "succeeded") {
+
+        const successData = {
+          user_id: user?.id,
+          product_id: product?.id,
+          transaction_id: paymentIntent?.paymentIntent?.id,
+          amount: product?.price,
+          street_address: values?.streetAddress,
+          city: values?.city,
+          contact: values?.contactNumber,
+          payment_method: 'card',
+          payment_status  : "success"
+        }
+
+         await paymentSuccess(successData)
+
+
+
+        message?.success("Payment successfull");
+
+
+       
+        setLoading(false);
+        
+     
+      } else {
+        console.error('Payment failed:', paymentIntent.error);
+        setLoading(false);
+
+        message?.error("Payment failed");
+      }
+
     }
+
+
+
+
+    setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      {errorMessage && <div>{errorMessage}</div>}
-      <button
-        type="submit"
-        disabled={!stripe}
-      >
-        Pay Now
-      </button>
-    </form>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      className="space-y-6"
+      requiredMark={false}
+    >
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Card details</h2>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#FFFFFFCC',
+                '::placeholder': {
+                  color: '#aab7c4',
+                },
+              },
+              invalid: {
+                color: '#9e2146',
+              },
+            },
+          }}
+          className="p-3 bg-gray-900 border border-gray-700 rounded-md"
+        />
+      </div>
+
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Billing address</h2>
+        <Form.Item
+          name="streetAddress"
+          rules={[{ required: true, message: 'Please enter your street address' }]}
+        >
+          <Input placeholder="Street address" className="h-12 bg-gray-900 border-gray-700" />
+        </Form.Item>
+        <Form.Item
+          name="city"
+          rules={[{ required: true, message: 'Please enter your city' }]}
+        >
+          <Input placeholder="City" className="h-12 bg-gray-900 border-gray-700" />
+        </Form.Item>
+        <Form.Item
+          name="contactNumber"
+          rules={[
+            { required: true, message: 'Please enter your contact number' },
+
+          ]}
+        >
+          <Input placeholder="Contact number" className="h-12 bg-gray-900 border-gray-700" />
+        </Form.Item>
+      </div>
+
+      <Form.Item>
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={loading}
+          style={{ backgroundColor: '#D5B98C' }}
+          className="w-full h-12 bg-[#D5B98C] hover:bg-[#C5A97C] text-black font-medium"
+        >
+          Confirm & pay
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
-export default CheckoutForm;
+const PaymentForm = ({ product }) => (
+  <Elements stripe={stripePromise}>
+    <CheckoutForm product={product} />
+  </Elements>
+);
+
+export default PaymentForm;
