@@ -1,4 +1,4 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const blogSlice = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -31,7 +31,7 @@ const blogSlice = api.injectEndpoints({
 
 export const {
   useGetallBlogsQuery,
-  useGetsingleBlogbyIdQuery,
+  useLazyGetallBlogsQuery,
   useCreateBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,

@@ -1,36 +1,23 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const blogsApi = api.injectEndpoints({
   endpoints: (builder) => ({
-  
-
-
-
-  getallBlogs:builder.query({
-    query:()=>({
-      url:`/blog-list`,
-      method:'GET'
+    getallBlogs: builder.query({
+      query: () => ({
+        url: `/blog-list`,
+        method: "GET",
+      }),
+      providesTags: ["blog"],
     }),
-    providesTags:['blog']
-  }),
 
-  getsingleBlogbyId:builder.query({
-    query:(id)=>({
-      url:`/blog-details/${id}`,
-      method:'GET'
+    getsingleBlogbyId: builder.query({
+      query: (id) => ({
+        url: `/blog-details/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["blog"],
     }),
-    providesTags:['blog']
-  })
-
-
-
   }),
 });
 
-export const {
-
-useGetallBlogsQuery,
-useGetsingleBlogbyIdQuery
-
-
-} = blogsApi;
+export const { useGetallBlogsQuery, useGetsingleBlogbyIdQuery } = blogsApi;

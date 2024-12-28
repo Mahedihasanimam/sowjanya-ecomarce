@@ -1,4 +1,4 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const userApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,9 +8,8 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ['user']
+      invalidatesTags: ["user"],
     }),
-
 
     verifyEmail: builder.mutation({
       query: (email) => ({
@@ -32,11 +31,9 @@ const userApi = api.injectEndpoints({
         url: "/auth/reset-password",
         method: "POST",
 
-
         body: data,
       }),
     }),
-
 
     loginUser: builder.mutation({
       query: (user) => ({
@@ -44,10 +41,8 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      invalidatesTags: ['user'],
+      invalidatesTags: ["user"],
     }),
-
-
 
     OtpVerify: builder.mutation({
       query: (otp) => ({
@@ -57,82 +52,80 @@ const userApi = api.injectEndpoints({
       }),
     }),
 
-
-
     getLoginUserById: builder.query({
       query: (id) => `/users/get-one-user/${id}`,
-      providesTags: ['user'],
+      providesTags: ["user"],
     }),
 
     getProfile: builder.query({
       query: (token) => ({
-        url: '/own-profile',
+        url: "/own-profile",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      providesTags: ['user'],
+      transformResponse: (response, meta, arg) => {
+        // Transform or process the response if needed
+        return response; // Ensure the response is returned
+      },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          console.log(data);
+          // Dispatch action to update the user in userSlice
+          dispatch(userSlice.actions.setUser(data));
+        } catch (error) {
+          console.error("Error fetching profile:", error);
+        }
+      },
+      providesTags: ["user"],
     }),
-
-
-
 
     getmyorderList: builder.query({
       query: (token) => ({
-        url: '/my-order-list',
+        url: "/my-order-list",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      providesTags: ['user'],
+      providesTags: ["user"],
     }),
-
 
     leaveAreview: builder.mutation({
       query: (alldata) => ({
-        url: '/reviews',
-        method: 'POST',
+        url: "/reviews",
+        method: "POST",
         body: alldata,
       }),
       // Add the tag to invalidate or update the cache for review-related data
-      invalidatesTags: [{ type: 'Review', id: 'LIST' }],
+      invalidatesTags: [{ type: "Review", id: "LIST" }],
     }),
-
-
-
 
     updateProfile: builder.mutation({
       query: (data) => ({
-        url: '/auth/profile-update',
-        method: 'POST',
-     
+        url: "/auth/profile-update",
+        method: "POST",
+
         body: data,
       }),
     }),
 
-
-
-
-
-
-
-
     updatePassword: builder.mutation({
       query: (data) => ({
-        url: '/auth/change-password',
-        method: 'POST',
+        url: "/auth/change-password",
+        method: "POST",
         body: data,
       }),
     }),
 
     getNotifiByUserId: builder.query({
       query: (id) => `/users/notifications-by-user/${id}`,
-      providesTags: ['notifications']
+      providesTags: ["notifications"],
     }),
 
     getAbotUs: builder.query({
       query: () => "/aboutus",
-    }), 
+    }),
 
     // contactUs: builder.mutation({
     //   query: (data) => ({
@@ -141,7 +134,6 @@ const userApi = api.injectEndpoints({
     //     body: data,
     //   }),
     // }),
-
   }),
 });
 

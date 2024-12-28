@@ -1,4 +1,4 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const productSlice = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,4 +25,8 @@ const productSlice = api.injectEndpoints({
   }),
 });
 
-export const { useGetProductListQuery } = productSlice;
+export const {
+  useGetProductListQuery,
+  useCreateProductMutation,
+  useDeleteProductMutation,
+} = productSlice;
