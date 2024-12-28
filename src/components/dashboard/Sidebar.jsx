@@ -29,13 +29,12 @@ const Sidebar = ({ collapsed }) => {
   };
 
   const menus = (
-
     <Menu style={{ width: "200px" }}>
       <Menu.Item key="0">
         {" "}
         <Link
           className="flex items-center space-x-2 font-bold"
-          href={"/dashboard/FAQ"}
+          href={"/dashboard/blogs"}
         >
           <svg
             width="20"
@@ -49,7 +48,7 @@ const Sidebar = ({ collapsed }) => {
               fill="#D1D0D0"
             />
           </svg>
-          <span>FAQ</span>
+          <span>Blogs</span>
         </Link>{" "}
       </Menu.Item>
       <Menu.Item key="1">
@@ -100,7 +99,6 @@ const Sidebar = ({ collapsed }) => {
           <span> Change password</span>
         </Link>{" "}
       </Menu.Item>
-
     </Menu>
   );
   return (

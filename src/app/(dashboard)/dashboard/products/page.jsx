@@ -1,6 +1,10 @@
 "use client";
 
 import {
+  useDeleteProductMutation,
+  useGetProductListQuery,
+} from "@/redux/features/admin/productSlice";
+import {
   ExclamationCircleOutlined,
   PlusOutlined,
   SearchOutlined,
@@ -9,37 +13,27 @@ import { Button, Dropdown, Input, Modal, Select, Table } from "antd";
 
 import ProductFormModal from "@/components/dashboard/AddProductFormModal";
 import EditproductModal from "@/components/dashboard/EditProductFormModal";
-import UserDetailsModal from "@/components/dashboard/UserDetailsModal";
-import { useGetProductListQuery } from "@/redux/features/admin/productSlice";
+import ProductViewModal from "@/components/dashboard/ProductModal";
 import Image from "next/image";
 import { useState } from "react";
-import tableimg from "../../../../public/images/tableavtar.png";
 
 const { Search } = Input;
 const { confirm } = Modal;
 // Generate 50 products for pagination demo
-const allProducts = Array.from({ length: 20 }, (_, i) => ({
-  key: i + 1,
-  srNo: i + 1,
-  name: "Celestial Charm Dress",
-  price: 560.0,
-  quantity: 1500,
-  sale: 188,
-  stock: i % 3 === 2 ? "Out of stock" : "In stock",
-  image: tableimg,
-}));
 
 export default function ProductTable() {
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const { data: allProducts, isFetching } = useGetProductListQuery({
+  const { data: allProducts } = useGetProductListQuery({
     page,
     perPage,
     search: searchText,
   });
 
-  console.log(allProducts);
+  // console.log(allProducts);
+
+  const [deleteProduct] = useDeleteProductMutation();
 
   const [isProductModalVisible, setIsProductModalVisible] = useState(false);
   const [productModalMode, setProductModalMode] = useState("add");
@@ -52,7 +46,7 @@ export default function ProductTable() {
 
   const handleViewClick = (record) => {
     setIsViewModalVisible(true); // Updated state handler
-    setSelectedUser(record);
+    setSelectedProduct(record);
   };
 
   const handleCloseModal = () => {
@@ -245,12 +239,9 @@ export default function ProductTable() {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        const newProducts = products.filter((item) => item.key !== key);
-        setProducts(newProducts);
-        setPagination((prev) => ({
-          ...prev,
-          total: newProducts.length,
-        }));
+        deleteProduct(key).then(() => {
+          message.success("User deleted successfully");
+        });
       },
     });
   };
@@ -259,9 +250,9 @@ export default function ProductTable() {
 
   const sortItems = [
     {
-      key: "ALL",
-      label: "ALL",
-      onClick: () => setSortStock("ALL"),
+      key: "All",
+      label: "All",
+      onClick: () => setSortStock("All"),
     },
     {
       key: "Stock Out",
@@ -352,7 +343,9 @@ export default function ProductTable() {
 
       <Table
         columns={columns}
-        dataSource={allProducts?.products?.data}
+        dataSource={allProducts?.products?.data?.filter((product) => {
+          return sortStock === "All" ? product : product.stock === sortStock;
+        })}
         pagination={{
           current: allProducts?.products?.current_page,
           pageSize: allProducts?.products?.per_page,
@@ -445,10 +438,10 @@ export default function ProductTable() {
         mode={edittModalMode}
       />
 
-      <UserDetailsModal
-        isVisible={isViewModalVisible} // Updated prop name
-        onCancel={handleCloseModal}
-        initialData={selectedUser} // Updated prop name
+      <ProductViewModal
+        product={selectedProduct}
+        visible={isViewModalVisible}
+        onClose={handleCloseModal}
       />
     </div>
   );

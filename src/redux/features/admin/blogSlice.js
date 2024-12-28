@@ -31,7 +31,7 @@ const blogSlice = api.injectEndpoints({
 
 export const {
   useGetallBlogsQuery,
-  useGetsingleBlogbyIdQuery,
+  useLazyGetallBlogsQuery,
   useCreateBlogMutation,
   useUpdateBlogMutation,
   useDeleteBlogMutation,

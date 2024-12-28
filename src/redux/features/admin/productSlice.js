@@ -25,4 +25,8 @@ const productSlice = api.injectEndpoints({
   }),
 });
 
-export const { useGetProductListQuery } = productSlice;
+export const {
+  useGetProductListQuery,
+  useCreateProductMutation,
+  useDeleteProductMutation,
+} = productSlice;
