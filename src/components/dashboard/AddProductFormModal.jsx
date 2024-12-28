@@ -243,6 +243,7 @@ const ProductFormModal = ({
                     backgroundColor: "#262626",
                     color: "white",
                   }}
+                  type="number"
                   placeholder="Enter quantity..."
                   className="bg-[#262626] border-gray-600"
                 />

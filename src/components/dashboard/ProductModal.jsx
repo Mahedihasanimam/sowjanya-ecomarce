@@ -30,7 +30,7 @@ const ProductViewModal = ({ visible, onClose, product }) => {
                   height={400}
                   src={imgUrl}
                   alt={`Product Image ${index + 1}`}
-                  className="object-cover h-[50vh] rounded-lg"
+                  className="object-cover h-[50vh] rounded-lg !!border-gray-200"
                 />
               </div>
             ))}
@@ -40,34 +40,44 @@ const ProductViewModal = ({ visible, onClose, product }) => {
         {/* Product Details */}
         <Col span={12}>
           <div>
-            <Title level={5} className="!text-gray-200">
+            <Title level={5} className="!text-gray-400">
               Title:
             </Title>
-            <Text>{product?.title}</Text>
+            <Text className="!text-gray-200">{product?.title}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5}>Price:</Title>
-            <Text>${product?.price}</Text>
+            <Title level={5} className="!text-gray-400">
+              Price:
+            </Title>
+            <Text className="!text-gray-200">${product?.price}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5}>Sale Price:</Title>
-            <Text>${product?.sale_price}</Text>
+            <Title level={5} className="!text-gray-400">
+              Sale Price:
+            </Title>
+            <Text className="!text-gray-200">${product?.sale_price}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5}>Quantity:</Title>
-            <Text>{product?.quantity}</Text>
+            <Title level={5} className="!text-gray-400">
+              Quantity:
+            </Title>
+            <Text className="!text-gray-200">{product?.quantity}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5}>Stock:</Title>
-            <Text>{product?.stock}</Text>
+            <Title level={5} className="!text-gray-400">
+              Stock:
+            </Title>
+            <Text className="!text-gray-200">{product?.stock}</Text>
           </div>
         </Col>
       </Row>
 
       {/* Product Description */}
       <div style={{ marginTop: 24 }}>
-        <Title level={5}>Description:</Title>
-        <Text>{product?.description}</Text>
+        <Title level={5} className="!text-gray-400">
+          Description:
+        </Title>
+        <Text className="!text-gray-200">{product?.description}</Text>
       </div>
     </Modal>
   );

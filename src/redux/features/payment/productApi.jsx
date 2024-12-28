@@ -1,28 +1,19 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const paymentApi = api.injectEndpoints({
   endpoints: (builder) => ({
-  
-
-
-    payment:builder.mutation({
-      query:(data)=>({
-        url:`/create-order`,
-        method:'POST',
-        body:data
+    payment: builder.mutation({
+      query: (data) => ({
+        url: `/create-order`,
+        method: "POST",
+        body: data,
       }),
     }),
-
-
-
   }),
 });
 
 export const {
-
-useGetallproductQuery,
-useGetSingleproductByidQuery,
-useGetreviewByproductidQuery,
-
-
+  useGetallproductQuery,
+  useGetSingleproductByidQuery,
+  useGetreviewByproductidQuery,
 } = paymentApi;
