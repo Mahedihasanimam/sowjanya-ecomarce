@@ -3,15 +3,12 @@
 
 import { Typography } from 'antd';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import { useGetSingleproductByidQuery } from '@/redux/features/product/productApi';
 import { ProductGallery } from '@/components/util/ProductGallery';
-import StripeWrapper from '@/components/StripeWrapper';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import Step4 from '@/components/CompletePage';
-import CheckoutForm from '@/components/CheckoutForm';
-import { PaymentForm } from '@/components/PaymentForm';
+import PaymentForm from '@/components/PaymentForm';
+import Checkoutform from '@/components/CheckoutForm';
+
+
 
 
 const { Title, Paragraph } = Typography;
@@ -59,7 +56,13 @@ export default function ProductPage({ params }) {
           <Step4 />
         </Elements> */}
 
-        <PaymentForm/>
+       
+     <div className='bg-white p-4 rounded-lg'>
+     <Checkoutform/>
+
+     </div>
+       {/* <PaymentForm/> */}
+     
 
 
      

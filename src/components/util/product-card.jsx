@@ -2,25 +2,22 @@
 import productimg from '../../public/images/productimg.png'
 import { Card, Rate } from 'antd'
 import Image from 'next/image'
-
 import Link from 'next/link'
 
-
-
 export function ProductCard({ title, price, description, image, rating, reviews, id }) {
+  // Determine the image source
+  const imageUrl = Array.isArray(image) && image[1] ? image[1] : productimg;
+
   return (
     <Link href={`/products/${id}`}>
-
       <Card
-        className="w-full  p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow "
+        className="w-full p-2 overflow-hidden bg-[#4545454D] border-none rounded-lg hover:shadow-xl transition-shadow"
         bodyStyle={{ padding: "0" }}
       >
-        <div className="  w-full">
+        <div className="w-full">
           <Image
-          preview={false}
-            src={image?.[1] || productimg }
-            alt={title}
-          
+            src={imageUrl}
+            alt={title || 'Product Image'}
             height={200}
             width={100}
             className="object-cover w-full h-[250px] rounded-lg"
@@ -53,4 +50,3 @@ export function ProductCard({ title, price, description, image, rating, reviews,
     </Link>
   )
 }
-

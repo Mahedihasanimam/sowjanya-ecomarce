@@ -1,55 +1,82 @@
-import React, { useState } from "react";
-import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
-import Swal from "sweetalert2"; // for showing success messages
-import { message } from "antd";
+'use client'; // Required for client-side components in Next.js
 
-const CheckoutForm = ({ createdAppointment, setCurrentStep, setIsPaid }) => {
+import React, { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
+import { Button } from 'antd';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
+const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet
+console.log('hit')
+    if (!elements) {
       return;
     }
 
-    // Get the PaymentElement component and confirm payment
-    const paymentElement = elements.getElement(PaymentElement);
+    // Trigger form validation and wallet collection
+    const { error: submitError } = await elements.submit();
+    if (submitError) {
+      setErrorMessage(submitError.message);
+      return;
+    }
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
+    // Create the PaymentIntent and obtain clientSecret from your server endpoint
+    const res = await fetch('http://192.168.12.79:8000/api/create-order', {
+      method: 'POST',
+    });
+
+    const { client_secret: clientSecret } = await res.json();
+
+    const { error } = await stripe.confirmPayment({
       elements,
+      clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/payment/success`, // callback URL for success
+        return_url: 'https://example.com/order/123/complete',
       },
     });
 
     if (error) {
-      // Display error message if payment failed
       setErrorMessage(error.message);
-    } else if (paymentIntent.status === "succeeded") {
-      // Payment successful
-      setIsPaid(true);
-      setCurrentStep("payment-complete");
-      message.success("Payment Successful!");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
+      <Button htmlType='submit'  style={{backgroundColor:'#D5B98C',width:'100%',fontWeight:'700',fontSize:'16px',height:'44px',marginTop:'20px'}} type="submit" disabled={!stripe || !elements}>
+        Pay
+      </Button>
       {errorMessage && <div>{errorMessage}</div>}
-      <button
-        type="submit"
-        disabled={!stripe}
-      >
-        Pay Now
-      </button>
     </form>
   );
 };
 
-export default CheckoutForm;
+const Checkoutform = () => {
+  const options = {
+    mode: 'payment',
+    amount: 1099,
+    currency: 'usd',
+    appearance: {
+      /* Custom appearance settings */
+    },
+  };
+
+  return (
+    <Elements stripe={stripePromise} options={options}>
+      <CheckoutForm />
+    </Elements>
+  );
+};
+
+export default Checkoutform;
