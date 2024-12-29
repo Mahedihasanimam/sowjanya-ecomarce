@@ -1,16 +1,16 @@
 "use client";
 
+import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
+import { Image, Input, Modal, Select, Table, message } from "antd";
 import {
   useDeleteUsersMutation,
   useGetAllUsersQuery,
 } from "@/redux/features/admin/userSlice";
-import { ExclamationCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { Image, Input, Modal, Select, Table, message } from "antd";
 
 import ProductFormModal from "@/components/dashboard/AddProductFormModal";
 import UserDetailsModal from "@/components/dashboard/UserDetailsModal";
-import { useState } from "react";
 import tableimg from "../../../../public/images/tableavtar.png";
+import { useState } from "react";
 
 const { Search } = Input;
 const { confirm } = Modal;
@@ -141,16 +141,16 @@ export default function ProductTable() {
               <path
                 d="M10.9541 1C4.6471 1 1.5871 6.683 1.0441 7.808C1.01508 7.86784 1 7.93349 1 8C1 8.06651 1.01508 8.13216 1.0441 8.192C1.5861 9.317 4.6461 15 10.9541 15C17.2621 15 20.3211 9.317 20.8641 8.192C20.8931 8.13216 20.9082 8.06651 20.9082 8C20.9082 7.93349 20.8931 7.86784 20.8641 7.808C20.3221 6.683 17.2621 1 10.9541 1Z"
                 stroke="#DBBC7E"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M10.9541 11C12.611 11 13.9541 9.65685 13.9541 8C13.9541 6.34315 12.611 5 10.9541 5C9.29725 5 7.9541 6.34315 7.9541 8C7.9541 9.65685 9.29725 11 10.9541 11Z"
                 stroke="#DBBC7E"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -283,8 +283,8 @@ export default function ProductTable() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.425972 8.44461L8.6597 0L10.7178 2.11078L3.51308 9.5L10.7178 16.8892L8.6597 19L0.425972 10.5554C0.15311 10.2755 -0.000177383 9.89583 -0.000177383 9.5C-0.000177383 9.10417 0.15311 8.72455 0.425972 8.44461Z"
                       fill="white"
                     />
@@ -308,8 +308,8 @@ export default function ProductTable() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M10.2918 10.5554L2.05807 19L0 16.8892L7.2047 9.5L0 2.11078L2.05807 0L10.2918 8.44461C10.5647 8.72455 10.718 9.10417 10.718 9.5C10.718 9.89583 10.5647 10.2755 10.2918 10.5554Z"
                       fill="white"
                     />

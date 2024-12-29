@@ -1,45 +1,39 @@
 "use client";
 
+import { Button, Dropdown, Input, Modal, Select, Table } from "antd";
 import {
   ExclamationCircleOutlined,
   PlusOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Dropdown, Input, Modal, Select, Table } from "antd";
+import {
+  useDeleteProductMutation,
+  useGetProductListQuery,
+} from "@/redux/features/admin/productSlice";
 
-import ProductFormModal from "@/components/dashboard/AddProductFormModal";
 import EditproductModal from "@/components/dashboard/EditProductFormModal";
-import UserDetailsModal from "@/components/dashboard/UserDetailsModal";
-import { useGetProductListQuery } from "@/redux/features/admin/productSlice";
 import Image from "next/image";
+import ProductFormModal from "@/components/dashboard/AddProductFormModal";
+import ProductViewModal from "@/components/dashboard/ProductModal";
 import { useState } from "react";
-import tableimg from "../../../../public/images/tableavtar.png";
 
 const { Search } = Input;
 const { confirm } = Modal;
 // Generate 50 products for pagination demo
-const allProducts = Array.from({ length: 20 }, (_, i) => ({
-  key: i + 1,
-  srNo: i + 1,
-  name: "Celestial Charm Dress",
-  price: 560.0,
-  quantity: 1500,
-  sale: 188,
-  stock: i % 3 === 2 ? "Out of stock" : "In stock",
-  image: tableimg,
-}));
 
 export default function ProductTable() {
   const [searchText, setSearchText] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const { data: allProducts, isFetching } = useGetProductListQuery({
+  const { data: allProducts } = useGetProductListQuery({
     page,
     perPage,
     search: searchText,
   });
 
-  console.log(allProducts);
+  // console.log(allProducts);
+
+  const [deleteProduct] = useDeleteProductMutation();
 
   const [isProductModalVisible, setIsProductModalVisible] = useState(false);
   const [productModalMode, setProductModalMode] = useState("add");
@@ -52,7 +46,7 @@ export default function ProductTable() {
 
   const handleViewClick = (record) => {
     setIsViewModalVisible(true); // Updated state handler
-    setSelectedUser(record);
+    setSelectedProduct(record);
   };
 
   const handleCloseModal = () => {
@@ -177,16 +171,16 @@ export default function ProductTable() {
               <path
                 d="M10.9541 1C4.6471 1 1.5871 6.683 1.0441 7.808C1.01508 7.86784 1 7.93349 1 8C1 8.06651 1.01508 8.13216 1.0441 8.192C1.5861 9.317 4.6461 15 10.9541 15C17.2621 15 20.3211 9.317 20.8641 8.192C20.8931 8.13216 20.9082 8.06651 20.9082 8C20.9082 7.93349 20.8931 7.86784 20.8641 7.808C20.3221 6.683 17.2621 1 10.9541 1Z"
                 stroke="#DBBC7E"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M10.9541 11C12.611 11 13.9541 9.65685 13.9541 8C13.9541 6.34315 12.611 5 10.9541 5C9.29725 5 7.9541 6.34315 7.9541 8C7.9541 9.65685 9.29725 11 10.9541 11Z"
                 stroke="#DBBC7E"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -204,9 +198,9 @@ export default function ProductTable() {
               <path
                 d="M10.5229 2.87997L13.12 5.47712M8.79145 15H15.7172M1.86572 11.5371L1 15L4.46287 14.1343L14.4931 4.10409C14.8177 3.7794 15 3.33908 15 2.87997C15 2.42085 14.8177 1.98054 14.4931 1.65584L14.3442 1.50694C14.0195 1.18235 13.5791 1 13.12 1C12.6609 1 12.2206 1.18235 11.8959 1.50694L1.86572 11.5371Z"
                 stroke="#00FF55"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>
@@ -245,12 +239,9 @@ export default function ProductTable() {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        const newProducts = products.filter((item) => item.key !== key);
-        setProducts(newProducts);
-        setPagination((prev) => ({
-          ...prev,
-          total: newProducts.length,
-        }));
+        deleteProduct(key).then(() => {
+          message.success("User deleted successfully");
+        });
       },
     });
   };
@@ -259,9 +250,9 @@ export default function ProductTable() {
 
   const sortItems = [
     {
-      key: "ALL",
-      label: "ALL",
-      onClick: () => setSortStock("ALL"),
+      key: "All",
+      label: "All",
+      onClick: () => setSortStock("All"),
     },
     {
       key: "Stock Out",
@@ -352,7 +343,9 @@ export default function ProductTable() {
 
       <Table
         columns={columns}
-        dataSource={allProducts?.products?.data}
+        dataSource={allProducts?.products?.data?.filter((product) => {
+          return sortStock === "All" ? product : product.stock === sortStock;
+        })}
         pagination={{
           current: allProducts?.products?.current_page,
           pageSize: allProducts?.products?.per_page,
@@ -376,8 +369,8 @@ export default function ProductTable() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M0.425972 8.44461L8.6597 0L10.7178 2.11078L3.51308 9.5L10.7178 16.8892L8.6597 19L0.425972 10.5554C0.15311 10.2755 -0.000177383 9.89583 -0.000177383 9.5C-0.000177383 9.10417 0.15311 8.72455 0.425972 8.44461Z"
                       fill="white"
                     />
@@ -401,8 +394,8 @@ export default function ProductTable() {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M10.2918 10.5554L2.05807 19L0 16.8892L7.2047 9.5L0 2.11078L2.05807 0L10.2918 8.44461C10.5647 8.72455 10.718 9.10417 10.718 9.5C10.718 9.89583 10.5647 10.2755 10.2918 10.5554Z"
                       fill="white"
                     />
@@ -445,10 +438,10 @@ export default function ProductTable() {
         mode={edittModalMode}
       />
 
-      <UserDetailsModal
-        isVisible={isViewModalVisible} // Updated prop name
-        onCancel={handleCloseModal}
-        initialData={selectedUser} // Updated prop name
+      <ProductViewModal
+        product={selectedProduct}
+        visible={isViewModalVisible}
+        onClose={handleCloseModal}
       />
     </div>
   );

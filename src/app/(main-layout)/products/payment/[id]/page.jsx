@@ -5,10 +5,7 @@ import { Typography } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useGetSingleproductByidQuery } from '@/redux/features/product/productApi';
 import { ProductGallery } from '@/components/util/ProductGallery';
-import PaymentForm from '@/components/PaymentForm';
-import Checkoutform from '@/components/CheckoutForm';
-
-
+import PaymentForm from '@/components/CheckoutForm';
 
 
 const { Title, Paragraph } = Typography;
@@ -25,6 +22,9 @@ export default function ProductPage({ params }) {
   if (isError || !data?.product) {
     return <div>Error fetching product details!</div>;
   }
+
+
+  // console.log(data?.product);
 
   return (
     <div className="bg-primary text-white mb-[88px]">
@@ -56,13 +56,8 @@ export default function ProductPage({ params }) {
           <Step4 />
         </Elements> */}
 
-       
-     <div className='bg-white p-4 rounded-lg'>
-     <Checkoutform/>
-
-     </div>
-       {/* <PaymentForm/> */}
-     
+        {/* <PaymentForm/> */}
+        <PaymentForm product={data?.product}/>
 
 
      

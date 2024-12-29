@@ -1,4 +1,4 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const userSlice = api.injectEndpoints({
   endpoints: (builder) => ({

@@ -9,9 +9,12 @@ import { MenuOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import logo from "../../public/images/logo.png";
 import userimg from '../../public/images/avater.png'
+import { useSelector } from 'react-redux';
 const { Header } = Layout;
 
 const MainHeader = ({ setCollapsed, collapsed }) => {
+    const user = useSelector((state) => state.user.user);
+    console.log(user)
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -93,13 +96,21 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
                             </Link>
 
                             <div className='flex items-center space-x-2'>
-                           <Link href={'/dashboard/adminprofile'}>
-                           
-                           <Avatar  size={42} style={{ backgroundColor: '#5DFD92' }}>
-                                    <Image src={userimg} alt='avater'/>
-                                </Avatar>
-                           </Link>
-                                <p className='text-white text-lg'> Jhon Doe</p>
+                                <Link href={'/dashboard/adminprofile'}>
+
+                                    <Avatar size={42} style={{ backgroundColor: '#5DFD92' }}>
+
+                                        <Image
+                                            alt="profile"
+                                            height={30}
+                                            width={30}
+                                            src={user?.image || "/default-profile.png"}
+                                        />
+
+                                <p className='text-white text-lg'> {user?.name}</p>
+                                        
+                                    </Avatar>
+                                </Link>
                             </div>
                         </div>
                     </div>

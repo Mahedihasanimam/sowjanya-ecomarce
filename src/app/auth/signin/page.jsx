@@ -2,15 +2,15 @@
 
 import { Checkbox, Form, Input, message } from "antd";
 
-import { useLoginUserMutation } from "@/redux/features/users/UserApi";
-import { setUser } from "@/redux/features/users/userSlice";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
-import signupimg from "../../../public/images/loginimg.png";
 import logo from "../../../public/images/mainlogo.png";
+import { setUser } from "@/redux/features/users/userSlice";
+import signupimg from "../../../public/images/loginimg.png";
+import { useDispatch } from "react-redux";
+import { useLoginUserMutation } from "@/redux/features/users/UserApi";
+import { useRouter } from "next/navigation";
 
 export default function SigninPage() {
   const [form] = Form.useForm();
@@ -32,7 +32,8 @@ export default function SigninPage() {
       // Check for success and handle navigation
       if (respons?.access_token) {
         message.success("login success");
-        Cookies.set("token", respons?.access_token, { expires: 7 });
+        Cookies.set("role", respons?.user_information?.role);
+        Cookies.set("token", respons?.access_token);
         dispatch(setUser(respons));
         console.log(respons);
         if (respons?.user_information?.role === "ADMIN") {

@@ -1,4 +1,4 @@
-const { api } = require("@/redux/api/MainApiSlice");
+const { api } = require("@/baseApi");
 
 const statisticsSlice = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,13 +9,16 @@ const statisticsSlice = api.injectEndpoints({
       }),
     }),
     getAnalytics: builder.query({
-      query: ({ year, type }) => ({
-        url: `analytics?filter=${type}}&year=${year}`,
+      query: (year) => ({
+        url: `/analytics?filter=monthly&year=${year}`,
         method: "GET",
       }),
     }),
+
+
+
     getMostEarning: builder.query({
-      query: ({ year }) => ({
+      query: ( year ) => ({
         url: `most-earning?year=${year}`,
         method: "GET",
       }),
@@ -23,4 +26,4 @@ const statisticsSlice = api.injectEndpoints({
   }),
 });
 
-export const { useGetStatisticsQuery } = statisticsSlice;
+export const { useGetStatisticsQuery,useGetAnalyticsQuery,useGetMostEarningQuery } = statisticsSlice;

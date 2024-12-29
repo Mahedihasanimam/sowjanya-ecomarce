@@ -2,6 +2,7 @@
 
 import { Button, Form, Input, Modal, Select, Upload, message } from "antd";
 
+import { useCreateProductMutation } from "@/redux/features/admin/productSlice";
 import { useState } from "react";
 
 const { TextArea } = Input;
@@ -14,13 +15,18 @@ const ProductFormModal = ({
 }) => {
   const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
+  const [addNewProduct] = useCreateProductMutation();
 
   const handleBeforeUpload = (file) => {
     if (fileList.length >= 5) {
       message.error("You can only upload up to 5 images.");
       return Upload.LIST_IGNORE;
     }
-    return true;
+    return false; // Prevent default upload behavior
+  };
+
+  const handleRemove = (file) => {
+    setFileList((prevList) => prevList.filter((item) => item.uid !== file.uid));
   };
 
   const handleSubmit = () => {
@@ -31,11 +37,30 @@ const ProductFormModal = ({
           message.error("Please upload at least one image.");
           return;
         }
-        const productData = { ...values, images: fileList };
-        console.log("Product Data:", productData);
-        setFileList([]);
-        form.resetFields();
-        onCancel();
+
+        // Prepare the product data
+        const formData = new FormData();
+
+        // Append images to FormData
+        fileList.forEach((file, i) => {
+          formData.append(`images[${i}]`, file.originFileObj);
+        });
+
+        // Append the serialized array to FormData
+
+        // Append other form fields to FormData
+        Object.entries(values).forEach(([key, value]) => {
+          formData.append(key, value);
+        });
+
+        // Call the API with FormData
+        addNewProduct(formData).then((res) => {
+          // console.log(res);
+          message.success("Product added successfully");
+          setFileList([]);
+          form.resetFields();
+          onCancel();
+        });
       })
       .catch((errorInfo) => {
         console.error("Validation Failed:", errorInfo);
@@ -94,8 +119,9 @@ const ProductFormModal = ({
           <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 bg-black">
             <Upload.Dragger
               listType="picture-card"
-              fileList={fileList}
               beforeUpload={handleBeforeUpload}
+              onRemove={handleRemove}
+              fileList={fileList}
               onChange={({ fileList }) => setFileList(fileList)}
               className="upload-area"
             >
@@ -217,6 +243,7 @@ const ProductFormModal = ({
                     backgroundColor: "#262626",
                     color: "white",
                   }}
+                  type="number"
                   placeholder="Enter quantity..."
                   className="bg-[#262626] border-gray-600"
                 />
