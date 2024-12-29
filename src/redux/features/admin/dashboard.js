@@ -3,14 +3,17 @@ const { api } = require("@/baseApi");
 const statisticsSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getStatistics: builder.query({
-      query: () => ({
-        url: `statistics`,
+      query: (filter) => ({
+        url: `/statistics?period=${filter}`,
         method: "GET",
       }),
     }),
+
+
+
     getAnalytics: builder.query({
-      query: (year) => ({
-        url: `/analytics?filter=monthly&year=${year}`,
+      query: (filter) => ({
+        url: `/analytics?filter=${filter}`,
         method: "GET",
       }),
     }),
@@ -19,7 +22,7 @@ const statisticsSlice = api.injectEndpoints({
 
     getMostEarning: builder.query({
       query: ( year ) => ({
-        url: `most-earning?year=${year}`,
+        url: `/most-earning`,
         method: "GET",
       }),
     }),

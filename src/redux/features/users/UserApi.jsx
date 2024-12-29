@@ -127,6 +127,16 @@ const userApi = api.injectEndpoints({
       query: () => "/aboutus",
     }),
 
+
+    getadminProfile: builder.query({
+      query: () =>({
+        url: `/admin-profile`,
+        method: "GET",
+      }),
+    }),
+
+
+
     // contactUs: builder.mutation({
     //   query: (data) => ({
     //     url: "/help/send-mail-to-support",
@@ -152,4 +162,5 @@ export const {
   useLeaveAreviewMutation,
   useGetAbotUsQuery,
   useUpdatePasswordMutation,
+  useGetadminProfileQuery
 } = userApi;

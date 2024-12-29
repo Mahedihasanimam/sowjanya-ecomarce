@@ -10,11 +10,13 @@ import Image from 'next/image';
 import logo from "../../public/images/logo.png";
 import userimg from '../../public/images/avater.png'
 import { useSelector } from 'react-redux';
+import { useGetadminProfileQuery } from '@/redux/features/users/UserApi';
+
 const { Header } = Layout;
 
 const MainHeader = ({ setCollapsed, collapsed }) => {
-    const user = useSelector((state) => state.user.user);
-    console.log(user)
+    const {data:admin} = useGetadminProfileQuery();
+    console.log(admin)
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -97,20 +99,15 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
 
                             <div className='flex items-center space-x-2'>
                                 <Link href={'/dashboard/adminprofile'}>
-
-                                    <Avatar size={42} style={{ backgroundColor: '#5DFD92' }}>
-
                                         <Image
                                             alt="profile"
-                                            height={30}
-                                            width={30}
-                                            src={user?.image || "/default-profile.png"}
+                                            height={50}
+                                            width={50}
+                                            className='w-[40px] h-[40px] rounded-lg'
+                                            src={admin?.user?.image || "/default-profile.png"}
                                         />
-
-                                <p className='text-white text-lg'> {user?.name}</p>
-                                        
-                                    </Avatar>
                                 </Link>
+                                <p className='text-white text-lg'> {admin?.user?.name}</p>
                             </div>
                         </div>
                     </div>
