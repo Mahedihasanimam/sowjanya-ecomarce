@@ -99,7 +99,7 @@ const MainHeader = ({ setCollapsed, collapsed }) => {
                             </Link>
                             <div className='absolute -top-[4px] left-[-5px]  h-[20px] text-[#000000]'>
                                 <span className='bg-[#5DFD92] rounded-full text-sm w-[20px] h-[20px] flex items-center justify-center p-2'>
-                                {data?.notifications?.data.length}
+                                {data?.unread_notification}
                                 </span>
                             </div>
 
