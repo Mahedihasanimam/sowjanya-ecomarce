@@ -4,17 +4,20 @@ const notification = api.injectEndpoints({
   endpoints: (builder) => ({
     getallnotification: builder.query({
       query: () => `notify`,
+      invalidatesTags: ["notification"],
+    }),
+
+    readNotification: builder.mutation({
+      query: (id) => ({
+        url: `notify/${id}`,
+        method: "POST",
+      }),
+
+      providesTags: ["notification"],
     }),
 
 
-
-    // createAbout: builder.mutation({
-    //   query: (body) => ({
-    //     url: `about-add`,
-    //     method: "POST",
-    //     body,
-    //   }),
-    // }),
+   
 
 
 
@@ -23,4 +26,6 @@ const notification = api.injectEndpoints({
 
 export const {
  useGetallnotificationQuery,
+
+  useReadNotificationMutation,
 } = notification;
