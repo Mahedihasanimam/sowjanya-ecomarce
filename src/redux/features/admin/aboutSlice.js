@@ -3,7 +3,7 @@ const { api } = require("@/baseApi");
 const aboutSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getAbout: builder.query({
-      query: () => `aboutus`,
+      query: () => `aboutList`,
     }),
     createAbout: builder.mutation({
       query: (body) => ({
@@ -15,8 +15,4 @@ const aboutSlice = api.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAboutQuery,
-  useCreateAboutMutation,
-  useUpdateAboutMutation,
-} = aboutSlice;
+export const { useGetAboutQuery, useCreateAboutMutation } = aboutSlice;
