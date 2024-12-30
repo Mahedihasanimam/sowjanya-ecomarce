@@ -1,6 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -20,14 +18,14 @@
 
 /* Body Styling */
 body {
-
   font-family: "Roboto", sans-serif;
 }
 /* In your global CSS or a scoped CSS file */
 .ant-input::placeholder {
   color: #888888; /* Your desired placeholder color */
 }
-:where(.css-dev-only-do-not-override-142vneq).ant-input-affix-wrapper .anticon.ant-input-password-icon {
+:where(.css-dev-only-do-not-override-142vneq).ant-input-affix-wrapper
+  .anticon.ant-input-password-icon {
   color: rgb(255 255 255 / 45%);
   cursor: pointer;
   transition: all 0.3s;
@@ -54,32 +52,41 @@ body {
   background-color: #111 !important; /* Slightly lighter black for hover */
 }
 
-
-
 /* :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background-color: #DBBC7E;
   padding: 31px 20px;
 } */
-.ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected {
-  background-color: #DBBC7E;
+.ant-menu-dark .ant-menu-item-selected,
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark
+  > .ant-menu
+  .ant-menu-item-selected {
+  background-color: #dbbc7e;
   padding: 31px 20px;
 }
 
-
-
-
-
-:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark .ant-menu-item-selected a:hover, :where(.css-dev-only-do-not-override-142vneq).ant-menu-dark>.ant-menu .ant-menu-item-selected a:hover {
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark
+  .ant-menu-item-selected
+  a,
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark
+  > .ant-menu
+  .ant-menu-item-selected
+  a,
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark
+  .ant-menu-item-selected
+  a:hover,
+:where(.css-dev-only-do-not-override-142vneq).ant-menu-dark
+  > .ant-menu
+  .ant-menu-item-selected
+  a:hover {
   /* color: #000000; */
-  color:white;
+  color: white;
   font-size: 16px;
   font-weight: bold;
 }
-z
-.custom-select {
+z .custom-select {
   background-color: #00000066; /* Your desired background color */
-  border-radius: 8px;        /* Optional: Rounded corners */
-  height: 44px;              /* Optional: Adjust height */
+  border-radius: 8px; /* Optional: Rounded corners */
+  height: 44px; /* Optional: Adjust height */
 }
 .custom-select .ant-select-selector,
 .custom-select .ant-select-dropdown,
@@ -87,7 +94,6 @@ z
   background-color: transparent !important;
   color: #ffffffcc !important;
 }
-
 
 /* custom tabel   */
 
@@ -140,9 +146,6 @@ z
   border-color: #1890ff;
 }
 
-
-
-
 .ant-input-search .ant-input-group-addon .ant-btn {
   background: #1890ff !important;
   border-color: #1890ff !important;
@@ -161,11 +164,17 @@ z
   color: white !important;
 }
 
-.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+    .ant-pagination-size-changer
+  ):hover
+  .ant-select-selector {
   border-color: #1890ff !important;
 }
 
-.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(
+    .ant-select-customize-input
+  )
+  .ant-select-selector {
   border-color: #1890ff !important;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
 }
@@ -173,7 +182,8 @@ z
 .ant-select-dropdown {
   background: #262626 !important;
   border: 1px solid #434343 !important;
-  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48), 0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.48),
+    0 6px 16px 0 rgba(0, 0, 0, 0.32), 0 9px 28px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 .ant-select-item {
@@ -185,7 +195,6 @@ z
   background: #1890ff !important;
   color: #fff !important;
 }
-
 
 .ant-btn-primary:hover {
   background: #40a9ff !important;
@@ -210,21 +219,34 @@ z
   color: #ff4d4f;
 }
 
-:where(.css-dev-only-do-not-override-142vneq).ant-dropdown .ant-dropdown-menu, :where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu .ant-dropdown-menu {
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown .ant-dropdown-menu,
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu
+  .ant-dropdown-menu {
   padding: 4px;
   list-style-type: none;
   background-color: #ffffff;
   background-clip: padding-box;
   border-radius: 8px;
   color: white;
-  background: #1E1E1E;
+  background: #1e1e1e;
   width: 153px;
   outline: none;
-  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
-:where(.css-dev-only-do-not-override-142vneq).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-item, :where(.css-dev-only-do-not-override-142vneq).ant-dropdown .ant-dropdown-menu .ant-dropdown-menu-submenu-title, :where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu .ant-dropdown-menu .ant-dropdown-menu-submenu-title {
-  display: flex
-;
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-item,
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title,
+:where(.css-dev-only-do-not-override-142vneq).ant-dropdown-menu-submenu
+  .ant-dropdown-menu
+  .ant-dropdown-menu-submenu-title {
+  display: flex;
   margin: 0;
   padding: 5px 12px;
   color: rgb(255 255 255 / 88%);
@@ -235,7 +257,6 @@ z
   transition: all 0.2s;
   border-radius: 4px;
 }
-
 
 /* Product Form Modal Styles */
 .product-form-modal .ant-modal-content {
@@ -295,7 +316,6 @@ z
   color: white !important; /* Forces the placeholder to be white */
 }
 
-
 /* user modal  */
 .custom-modal .ant-modal-content {
   background-color: #333333; /* Dark background */
@@ -311,23 +331,20 @@ z
   border-top: none;
 }
 
-
 .ant-input:hover,
 .ant-input:focus {
-  border-color: #EAB308 !important;
+  border-color: #eab308 !important;
 }
 
 .ant-form-item-label > label {
   color: white !important;
 }
 
-
-
 .ant-input:hover,
 .ant-input:focus,
 .ant-input-password:hover .ant-input-password-input,
 .ant-input-password:focus .ant-input-password-input {
-  border-color: #EAB308 !important;
+  border-color: #eab308 !important;
 }
 
 .ant-form-item-label > label {
@@ -335,25 +352,24 @@ z
 }
 
 .ant-tabs-tab {
-  color: #9CA3AF !important;
+  color: #9ca3af !important;
 }
 
 .ant-tabs-tab:hover {
-  color: #EAB308 !important;
+  color: #eab308 !important;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #EAB308 !important;
+  color: #eab308 !important;
 }
 
 .ant-tabs-ink-bar {
-  background: #EAB308 !important;
+  background: #eab308 !important;
 }
 
 .custom-tabs .ant-tabs-nav::before {
   border-bottom: 1px solid #374151 !important;
 }
-
 
 .custom-rate .ant-rate-star.ant-rate-star-full,
 .custom-rate .ant-rate-star:hover,
@@ -363,4 +379,8 @@ z
 
 li.ant-rate-star.ant-rate-star-zero span svg {
   fill: rgb(104, 104, 104);
+}
+
+.ant-upload {
+  color: white;
 }
