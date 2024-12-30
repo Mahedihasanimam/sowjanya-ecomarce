@@ -118,6 +118,8 @@ export default function AboutPage() {
                 listType="picture-card"
                 fileList={fileList}
                 onChange={handleImageUpload}
+                multiple
+                maxCount={3}
                 beforeUpload={() => false} // Prevent automatic upload
               >
                 {fileList.length >= 3 ? null : <div>+ Upload</div>}
