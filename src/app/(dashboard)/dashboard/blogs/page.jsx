@@ -13,10 +13,11 @@ const { TextArea } = Input;
 export default function Blogs() {
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState(null);
+  const [previewurl, setPreviewUrl] = useState(null);
 
   const { data: blogs } = useGetallBlogsQuery();
   const [addNewBlogs] = useCreateBlogMutation();
-
+const formData=new FormData();
   const onFinish = (values) => {
     console.log("Form values:", {
       ...values,
@@ -28,10 +29,14 @@ export default function Blogs() {
 
   const handleImageUpload = (info) => {
     if (info.file.status === "done") {
-      setImageUrl(URL.createObjectURL(info.file.originFileObj));
+      setImageUrl(info.file);
+
+      setPreviewUrl(URL.createObjectURL(info.file.originFileObj));
       message.success("Image uploaded successfully");
       console.log("Image upload info:", info.file);
     }
+
+
   };
 
   return (
