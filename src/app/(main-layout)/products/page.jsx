@@ -1,13 +1,4 @@
 'use client'
-import { CategoryCard } from '@/components/products/CategoryCard'
-import catimg from "../../../public/images/catimg.png"
-import catimg2 from "../../../public/images/catimg2.png"
-
-import { AntiFashionCard } from '@/components/util/AntiFashionCard'
-
-
-import product from '../../../public/images/fashoion.png'
-import product2 from '../../../public/images/fashion2.png'
 import { Button, Card, Skeleton } from 'antd'
 import { useGetallproductQuery } from '@/redux/features/product/productApi'
 import { ProductCard } from '@/components/util/product-card'
@@ -20,6 +11,7 @@ export default function Page() {
     const { data, isLoading, isError } = useGetallproductQuery();
     const [visibleCount, setVisibleCount] = useState(8); 
     // Function to load more items
+    console.log('data', data)
     const handleLoadMore = () => {
       setVisibleCount(data?.products?.data?.length || 0); // Show all items
     };

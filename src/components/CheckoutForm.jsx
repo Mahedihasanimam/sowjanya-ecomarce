@@ -127,7 +127,7 @@ const CheckoutForm = ({ product }) => {
               },
             },
           }}
-          className="p-3 bg-gray-900 border border-gray-700 rounded-md"
+          className="p-3  border border-gray-700 rounded-md"
         />
       </div>
 
@@ -137,13 +137,13 @@ const CheckoutForm = ({ product }) => {
           name="streetAddress"
           rules={[{ required: true, message: 'Please enter your street address' }]}
         >
-          <Input placeholder="Street address" className="h-12 bg-gray-900 border-gray-700" />
+          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="Street address" className="h-12  border-gray-700" />
         </Form.Item>
         <Form.Item
           name="city"
           rules={[{ required: true, message: 'Please enter your city' }]}
         >
-          <Input placeholder="City" className="h-12 bg-gray-900 border-gray-700" />
+          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="City" className="h-12  border-gray-700" />
         </Form.Item>
         <Form.Item
           name="contactNumber"
@@ -152,13 +152,13 @@ const CheckoutForm = ({ product }) => {
 
           ]}
         >
-          <Input placeholder="Contact number" className="h-12 bg-gray-900 border-gray-700" />
+          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="Contact number" className="h-12  border-gray-700" />
         </Form.Item>
       </div>
 
       <Form.Item>
         <Button
-          type="primary"
+          
           htmlType="submit"
           loading={loading}
           style={{ backgroundColor: '#D5B98C' }}

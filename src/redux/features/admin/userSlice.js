@@ -7,6 +7,11 @@ const userSlice = api.injectEndpoints({
         `users?page=${page}&per_page=${perPage}&search=${search}`,
       providesTags: ["user"],
     }),
+  
+
+
+
+
     deleteUsers: builder.mutation({
       query: (id) => ({
         url: `users/${id}`,

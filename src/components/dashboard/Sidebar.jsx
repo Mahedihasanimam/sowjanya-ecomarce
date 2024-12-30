@@ -6,11 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import avater from "../../public/images/avater.png";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useContext } from "react";
+import { UserContext } from "@/lib/UserContext";
+import { clearUser } from "@/redux/features/users/userSlice";
+import Cookies from "js-cookie";
+import { useGetadminProfileQuery } from "@/redux/features/users/UserApi";
 
 const { Sider } = Layout;
 
 // eslint-disable-next-line react/prop-types
 const Sidebar = ({ collapsed }) => {
+   const { data: admin } = useGetadminProfileQuery();
+    const { logoutUser } = useContext(UserContext);
+  const dispatch = useDispatch();
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -22,7 +32,9 @@ const Sidebar = ({ collapsed }) => {
       confirmButtonText: "Yes, log out!",
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.clear();
+           logoutUser();
+            dispatch(clearUser());
+            Cookies.remove("token");
         window.location.href = "/auth/signin";
       }
     });
@@ -271,7 +283,9 @@ const Sidebar = ({ collapsed }) => {
               role="menuitem"
             >
               <Image
-                src={avater}
+                src={admin?.user?.image ||avater}
+                height={20}
+                width={20}
                 alt="avatar"
                 className="w-10 h-10 rounded-2xl"
               />
@@ -281,14 +295,14 @@ const Sidebar = ({ collapsed }) => {
                     collapsed ? "hidden" : ""
                   }`}
                 >
-                  Jenny
+                 {admin?.user?.name}
                 </h1>
                 <span
                   className={`text-[#FFFFFFB2] text-xs font-nunito font-semibold ${
                     collapsed ? "hidden" : ""
                   }`}
                 >
-                  jenny@gmail.com
+                  {admin?.user?.email}
                 </span>
               </div>
             </div>

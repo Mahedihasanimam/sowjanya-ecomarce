@@ -45,7 +45,7 @@ export default function EditProfilePage() {
     
         const formData = new FormData();
         formData.append('name', e.target.firstname.value + ' ' + e.target.lastname.value);
-    
+    console.log('imagefile',imageFile)
         if (imageFile) {
             formData.append('image', imageFile);
         }
@@ -55,9 +55,8 @@ export default function EditProfilePage() {
             console.log(key, value);
         });
         try {
-
-
             const response = await updateProfile(formData);
+            console.log(response)
             if(response?.data?.status === 'success'){
                 console.log('Profile updated successfully:', response);
                 message.success('Profile updated successfully');
@@ -127,6 +126,7 @@ export default function EditProfilePage() {
                                 )}
                             </div>
                             <button
+                            style={{ backgroundColor: '#DBBC7E', height: '44px', fontSize: '16px', fontWeight: '600' }}
                                 type="button"
                                 className="absolute left-1/2 transform -translate-x-1/2 px-2 py-2 text-secondary font-medium bg-transparent"
                                 onClick={triggerFileInput}

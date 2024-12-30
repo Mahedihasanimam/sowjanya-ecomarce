@@ -90,7 +90,7 @@ const ProfilePage = () => {
       render: (status) => (
         <span
           className={`px-2 py-1 rounded text-white ${
-            status === "Delivered" ? "bg-green-800" : "bg-red-700"
+            status === "delivered" ? "bg-green-800" : "bg-red-700"
           }`}
         >
           {status}

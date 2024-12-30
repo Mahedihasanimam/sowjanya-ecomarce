@@ -5,6 +5,7 @@ import Image from "next/image";
 const { Title, Text } = Typography;
 
 const ProductViewModal = ({ visible, onClose, product }) => {
+  console.log(product);
   return (
     <Modal
       visible={visible}
@@ -40,44 +41,44 @@ const ProductViewModal = ({ visible, onClose, product }) => {
         {/* Product Details */}
         <Col span={12}>
           <div>
-            <Title level={5} className="!text-gray-400">
+            <Title level={5} className="!text-gray-200">
               Title:
+            <Text className="!text-gray-400">{product?.title}</Text>
             </Title>
-            <Text className="!text-gray-200">{product?.title}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5} className="!text-gray-400">
+            <Title level={5} className="!text-gray-200">
               Price:
+            <Text className="!text-gray-400">${product?.price}</Text>
             </Title>
-            <Text className="!text-gray-200">${product?.price}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5} className="!text-gray-400">
+            <Title level={5} className="!text-gray-200">
               Sale Price:
+            <Text className="!text-gray-400">${product?.sale_price}</Text>
             </Title>
-            <Text className="!text-gray-200">${product?.sale_price}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5} className="!text-gray-400">
+            <Title level={5} className="!text-gray-200">
               Quantity:
+            <Text className="!text-gray-400">{product?.quantity}</Text>
             </Title>
-            <Text className="!text-gray-200">{product?.quantity}</Text>
           </div>
           <div style={{ marginTop: 12 }}>
-            <Title level={5} className="!text-gray-400">
+            <Title level={5} className="!text-gray-200">
               Stock:
+            <Text className="!text-gray-400">{product?.stock}</Text>
             </Title>
-            <Text className="!text-gray-200">{product?.stock}</Text>
           </div>
         </Col>
       </Row>
 
       {/* Product Description */}
       <div style={{ marginTop: 24 }}>
-        <Title level={5} className="!text-gray-400">
+        <Title level={5} className="!text-gray-200">
           Description:
+        <Text className="!text-gray-400">{product?.description}</Text>
         </Title>
-        <Text className="!text-gray-200">{product?.description}</Text>
       </div>
     </Modal>
   );
