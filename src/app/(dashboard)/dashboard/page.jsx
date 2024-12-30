@@ -327,8 +327,8 @@ export default function Dashboard() {
             title={<span className="text-white">Most earnings</span>}
           >
 
-            <div className="h-[450px] relative">
-              <ResponsiveContainer width="100%" height={450}>
+            <div className="h-[380px] relative">
+              <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
                   <Pie
                     data={earningdata}
@@ -371,14 +371,17 @@ export default function Dashboard() {
 
 
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-2">
-{/* 
+            <div className=" ">
+
               {mostEarningdata?.top_months?.map((entry, index) => (
-                  <div key={index} className="legend-item">
-                    <span className="legend-color" style={{ backgroundColor: entry.color }}></span>
-                    <span className="legend-name">{entry}</span>
-                  </div>
-                ))} */}
+                <div key={index} className="legend-item flex items-center space-x-2">
+                  <span className="legend-color" style={{ backgroundColor: entry.color }}><svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="5" cy="5" r="5" fill="#D2873B" />
+                  </svg>
+                  </span>
+                  <span className="legend-name text-white ">{entry?.month_name}</span>
+                </div>
+              ))}
 
             </div>
           </Card>
