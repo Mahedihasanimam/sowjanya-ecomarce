@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   const [createAboutUs] = useCreateAboutMutation();
 
-  console.log(about);
+  // console.log(about);
 
   const onFinish = (values) => {
     const formData = new FormData();
@@ -30,10 +30,15 @@ export default function AboutPage() {
       }
     });
 
-    createAboutUs(formData).then((res) => {
-      console.log(res);
-      message.success("About page updated successfully");
-    });
+    createAboutUs(formData)
+      .then((res) => {
+        // console.log(res);
+        message.success("About page updated successfully");
+      })
+      .catch((error) => {
+        console.error(error);
+        message.error("Failed to update about page" + error?.message);
+      });
   };
 
   const handleImageUpload = ({ fileList }) => {
