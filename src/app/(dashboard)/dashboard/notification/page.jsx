@@ -6,8 +6,8 @@ import { LeftOutlined } from '@ant-design/icons';
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Pagination, message } from "antd";
-import { useGetallnotificationQuery, useReadNotificationMutation } from "@/redux/features/admin/notificationslice";
+import { Button, Pagination, message } from "antd";
+import { useGetallnotificationQuery, useReadNotificationMutation, useRedallnotificationMutation } from "@/redux/features/admin/notificationslice";
 
 const Notificationitem = () => {
     const [isOpen, setIsOpen] = useState(true); // Manage the modal open state
@@ -17,7 +17,8 @@ const Notificationitem = () => {
     const router = useRouter();
     const { data } = useGetallnotificationQuery();
     const [readNotification] = useReadNotificationMutation();
-    console.log(data?.notifications?.data);
+    const [redallnotification] = useRedallnotificationMutation();
+    console.log(data?.unread_notification);
 
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -37,6 +38,14 @@ const Notificationitem = () => {
         console.log('readnotification', respons);
     };
 
+    const handlereadall = async () => {
+        const respons = await redallnotification();
+        console.log(respons)
+        if (respons?.data?.status === 'success') {
+            message.success('message readed successfully');
+        }
+    }
+
     // Pagination Logic
     const indexOfLastNotification = currentPage * notificationsPerPage;
     const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
@@ -46,7 +55,8 @@ const Notificationitem = () => {
         <div className="min-h-screen text-white p-4 z-50">
             <div className="modal-content w-full">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl flex text-white space-x-2 items-center font-semibold mb-6 relative">
+                    <div className="text-xl flex text-white space-x-2 items-center font-semibold mb-6 ">
+                        <div className="relative">
                         <>
                             <button onClick={() => router.back()} className="focus:outline-none pt-2">
                                 <LeftOutlined className="text-2xl cursor-pointer" />
@@ -55,10 +65,15 @@ const Notificationitem = () => {
                         Notifications
                         <div className='absolute top-2 -right-[25px] h-[20px] text-[#000000]'>
                             <span className='bg-[#5DFD92] rounded-full text-sm w-[20px] h-[20px] flex items-center justify-center p-2'>
-                                {data?.notifications?.data.length}
+                                {data?.unread_notification}
                             </span>
                         </div>
-                    </h2>
+
+                        </div>
+
+
+                    </div>
+                        <Button onClick={handlereadall}>Read all</Button>
                 </div>
                 {currentNotifications?.length > 0 ? (
                     <>

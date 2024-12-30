@@ -15,6 +15,14 @@ const notification = api.injectEndpoints({
 
       providesTags: ["notification"],
     }),
+    redallnotification: builder.mutation({
+      query: () => ({
+        url: `notify-all-read`,
+        method: "POST",
+      }),
+
+      providesTags: ["notification"],
+    }),
 
 
    
@@ -28,4 +36,5 @@ export const {
  useGetallnotificationQuery,
 
   useReadNotificationMutation,
+  useRedallnotificationMutation,
 } = notification;
