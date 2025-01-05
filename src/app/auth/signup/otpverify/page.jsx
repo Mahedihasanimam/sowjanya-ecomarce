@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, Suspense } from 'react'
 import { Input, message } from 'antd'
 import signupimg from '../../../../public/images/otpimg.png'
 import logo from '../../../../public/images/mainlogo.png'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForgetpasswordMutation, useVerifyEmailMutation } from '@/redux/features/users/UserApi'
-export default function OtpVerification() {
+ function OtpVerificationcontent() {
   const [forgetpassword]=useForgetpasswordMutation()
   const searchParams=useSearchParams()
   const [email, setEmail] = useState("");
@@ -161,3 +161,11 @@ const router=useRouter()
     )
 }
 
+
+export default function OtpVerification() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OtpVerificationcontent />
+    </Suspense>
+  );
+}
