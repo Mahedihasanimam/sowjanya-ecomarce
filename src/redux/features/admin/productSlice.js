@@ -16,6 +16,18 @@ const productSlice = api.injectEndpoints({
       }),
     }),
     // add new products
+    updateproduct: builder.mutation({
+      query: ({id,data}) => ({
+        url: `product-update/${id}`,
+        method: "POST",
+        body:data
+     
+      }),
+    }),
+
+
+
+    // add new products
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `product-delete/${id}`,
@@ -29,4 +41,5 @@ export const {
   useGetProductListQuery,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useUpdateproductMutation,
 } = productSlice;

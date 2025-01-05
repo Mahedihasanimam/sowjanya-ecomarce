@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { Form, Input, Checkbox, message } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,16 +9,13 @@ import logo from '../../../public/images/mainlogo.png'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useResetpasswordMutation } from '@/redux/features/users/UserApi'
 
-
-
-export default function SigninPage() {
+function Restpasswordcontent() {
   const [form] = Form.useForm()
   const router = useRouter()
-  const [resetpassword] = useResetpasswordMutation()
+  const [resetpassword] = useResetpasswordMutation() 
   const searchParams = useSearchParams()
   const [email, setEmail] = useState("");
 
- 
   // Extract email from query parameters
   useEffect(() => {
     const queryEmail = searchParams.get("email");
@@ -152,3 +149,11 @@ export default function SigninPage() {
   )
 }
 
+
+export default function resetpassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Restpasswordcontent />
+    </Suspense>
+  );
+}

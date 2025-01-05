@@ -62,6 +62,7 @@ export default function ProductTable() {
   };
 
   const handleedit = (record) => {
+  
     seteditModalMode("edit");
     setSelectedProduct(record);
     setIsEditModalVisible(true);
