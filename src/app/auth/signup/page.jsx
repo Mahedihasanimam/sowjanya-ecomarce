@@ -102,17 +102,17 @@ const [registerUser]=useRegisterUserMutation()
               rules={[
                 {
                   validator: (_, value) =>
-                    value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                    value ? Promise.resolve() : Promise.reject(new Error('please review and accept the agreement to proceed with signing up')),
                 },
               ]}
             >
               <Checkbox className="text-gray-400">
                 By creating an account, you agree to the{' '}
-                <Link href="/terms" className="text-[#D4B57E] hover:text-[#C4A56E]">
+                <Link href="/terms&conditions" className="text-[#D4B57E] hover:text-[#C4A56E]">
                   terms of conditions
                 </Link>{' '}
                 &{' '}
-                <Link href="/privacy" className="text-[#D4B57E] hover:text-[#C4A56E]">
+                <Link href="/privacy&policy" className="text-[#D4B57E] hover:text-[#C4A56E]">
                   privacy policy
                 </Link>
               </Checkbox>
