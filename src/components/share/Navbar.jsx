@@ -3,7 +3,7 @@
 import { Avatar, Button, Dropdown, Menu } from "antd";
 import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { clearUser, setUser } from "@/redux/features/users/userSlice";
-import { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Cookies from "js-cookie";
@@ -24,15 +24,21 @@ const Navbar = () => {
 
   const addedToken = Cookies.get("token");
 
-  const handlesetUser = async () => {
+  const handlesetUser = useCallback(async () => {
     const user = await getProfile();
     if (user?.data?.data) {
       dispatch(setUser(user?.data?.data));
     }
-  };
+  },[getProfile,dispatch]);
 
   useEffect(() => {
-    handlesetUser();
+    if (addedToken) {
+      handlesetUser();
+    }
+  }, [addedToken,handlesetUser]);
+
+  useEffect(() => {
+  
     // Update cart count on the client side
     const allProducts =
       typeof window !== "undefined" && localStorage.getItem("cartItems")
@@ -41,16 +47,16 @@ const Navbar = () => {
     setCartCount(allProducts.length || 0);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = React.useCallback(() => {
     logoutUser();
     dispatch(clearUser());
     Cookies.remove("token");
     router.push("/auth/signin");
-  };
+  },[dispatch,logoutUser,router]);
 
   const user = useSelector((state) => state.user.user);
 
-  console.log(user);
+  // console.log(user);
 
   const userMenuItems = (
     <Menu>
