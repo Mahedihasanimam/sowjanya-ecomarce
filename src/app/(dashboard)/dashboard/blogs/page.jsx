@@ -2,6 +2,7 @@
 
 import { useCreateBlogMutation, useGetallBlogsQuery } from "@/redux/features/admin/blogSlice";
 import { Button, Form, Input, message } from "antd";
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 const { TextArea } = Input;
@@ -111,7 +112,9 @@ export default function Blogs() {
                     onClick={triggerFileInput}
                   >
                     {previewUrl ? (
-                      <img
+                      <Image
+                        width={100}
+                        height={100}
                         src={previewUrl}
                         alt="Preview"
                         className="object-cover rounded-full w-full h-full"

@@ -31,7 +31,7 @@ console.log('bolgs details',data)
                     Back
                 </p>
                 <div>
-                    <Image height={2000} width={200} className='w-full h-[600px] rounded-lg' src={data?.data?.image}/>
+                    <Image height={2000} width={200} className='w-full h-[600px] rounded-lg' src={data?.data?.image} alt={data?.data?.title}/>
 
                   <div className='space-y-2 pt-6'>
                     <h3 className='text-white text-[16px] font-bold'>{data?.data?.title}</h3>

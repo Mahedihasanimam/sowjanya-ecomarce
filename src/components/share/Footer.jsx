@@ -78,27 +78,27 @@ const Footer = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link rel="noopener noreferrer" href="/browsemore">
+                      <Link rel="noopener noreferrer" href="/products">
                        Shop Collections
                       </Link>
                     </li>
                     <li>
-                      <Link rel="noopener noreferrer" href="/FAQ">
+                      <Link rel="noopener noreferrer" href="/FAQs">
                        FAQs
                       </Link>
                     </li>
                     <li>
-                      <Link rel="noopener noreferrer" href="/auth/OwnarLogin">
+                      <Link rel="noopener noreferrer" href="/Shipping&Returns">
                        Shipping & Returns
                       </Link>
                     </li>
                     <li>
-                      <Link rel="noopener noreferrer" href="/auth/OwnarLogin">
+                      <Link rel="noopener noreferrer" href="/terms&conditions">
                        Terms & Conditions
                       </Link>
                     </li>
                     <li>
-                      <Link rel="noopener noreferrer" href="/auth/OwnarLogin">
+                      <Link rel="noopener noreferrer" href="/privacy&policy">
                        Privacy Policy
                       </Link>
                     </li>

@@ -8,6 +8,7 @@ const nextConfig = {
       "10.0.80.17",
       "210.4.77.100",
       "via.placeholder.com",
+      "182.252.68.227",
     ],
   },
 };
