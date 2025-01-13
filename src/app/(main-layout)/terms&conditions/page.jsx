@@ -47,13 +47,13 @@ const TermsAndConditions = () => {
           <p className="mt-4">
             VAT is not included in the prices displayed as it is not applicable. Should this status change, we will update our pricing and notify users accordingly, as required by the Value Added Tax Act 1994.
           </p>
-          <p className="mt-4">
+          <div className="mt-4">
             Payments are securely processed via:
             <ul className="list-disc list-inside mt-2">
               <li>Credit/Debit Cards</li>
               <li>Apple Pay (via Stripe)</li>
             </ul>
-          </p>
+          </div>
           <p className="mt-4">
             If a payment fails or is flagged for any reason, we reserve the right to delay or cancel the associated order. In such cases, we will notify you promptly and assist in resolving the issue.
           </p>
@@ -80,14 +80,14 @@ const TermsAndConditions = () => {
 
         <section>
           <h2 className="text-2xl font-semibold mt-6">Account Creation and Responsibility</h2>
-          <p className="mt-4">
+          <div className="mt-4">
             Users are encouraged to create an account to facilitate a streamlined shopping experience. By creating an account, you agree to:
             <ul className="list-disc list-inside mt-2">
               <li>Provide accurate and up-to-date information.</li>
               <li>Update your account details as necessary to ensure their accuracy.</li>
               <li>Keep your login credentials secure and confidential.</li>
             </ul>
-          </p>
+          </div>
           <p className="mt-4">
             You are fully responsible for all activities conducted under your account. If you become aware of or suspect unauthorised access to your account, you must notify us immediately at <a href="mailto:alderandrhodes@gmail.com" className="text-blue-500 underline">alderandrhodes@gmail.com</a>.
           </p>
