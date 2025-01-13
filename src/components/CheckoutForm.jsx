@@ -1,15 +1,41 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Form, Input, Button, message } from 'antd';
 import { useCreatePaymentIntentMutation, usePaymentSuccessMutation } from '@/redux/features/payment/productApi';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutForm = ({ product }) => {
+  const products = Array.isArray(product) ? product : product ? [product] : [];
+
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem('cartItems');
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    }
+  }, []);
+
+
+
+  const calculateTotalPrice = (products) => {
+    return products.reduce((total, item) => {
+      const { price = 0 } = item || {};
+      return total + parseFloat(price) || 0;
+    }, 0);
+  };
+
+  const totalPrice = calculateTotalPrice(products);
+  console.log("Total Price:", totalPrice);
+
+
+
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const stripe = useStripe();
@@ -45,7 +71,7 @@ const CheckoutForm = ({ product }) => {
     });
 
 
-
+    console.log(res);
 
 
     //  console.log(values,product);
@@ -68,25 +94,31 @@ const CheckoutForm = ({ product }) => {
           user_id: user?.id,
           product_id: product?.id,
           transaction_id: paymentIntent?.paymentIntent?.id,
-          amount: product?.price,
+          amount: totalPrice,
           street_address: values?.streetAddress,
           city: values?.city,
           contact: values?.contactNumber,
           payment_method: 'card',
-          payment_status  : "success"
+          payment_status: "success"
         }
 
-         await paymentSuccess(successData)
-
-
-
+        await paymentSuccess(successData);
         message?.success("Payment successfull");
-
-
-       
         setLoading(false);
+
+
+        Swal.fire({
+          icon: "success",
+          title: "Payment successfull",
+          closeButtonAriaLabel: "Close",
+          text: `transection id : ${res?.data?.data?.id} amount: ${res?.data?.data?.amount} currency: ${res?.data?.data?.currency}`,
+          showConfirmButton: false,
         
-     
+        }).then(() => {
+          window.location.href = "/myprofile";
+        });
+
+
       } else {
         console.error('Payment failed:', paymentIntent.error);
         setLoading(false);
@@ -103,71 +135,94 @@ const CheckoutForm = ({ product }) => {
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onFinish}
-      className="space-y-6"
-      requiredMark={false}
-    >
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Card details</h2>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: '16px',
-                color: '#FFFFFFCC',
-                '::placeholder': {
-                  color: '#aab7c4',
+
+    <div>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        className="space-y-6"
+        requiredMark={false}
+      >
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-white">Card details</h2>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#FFFFFFCC',
+                  '::placeholder': {
+                    color: '#aab7c4',
+                  },
+                },
+                invalid: {
+                  color: '#9e2146',
                 },
               },
-              invalid: {
-                color: '#9e2146',
-              },
-            },
-          }}
-          className="p-3  border border-gray-700 rounded-md"
-        />
+            }}
+            className="p-3  border border-gray-700 rounded-md"
+          />
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-white">Billing address</h2>
+          <Form.Item
+            name="streetAddress"
+            rules={[{ required: true, message: 'Please enter your street address' }]}
+          >
+            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="Street address" className="h-12  border-gray-700" />
+          </Form.Item>
+          <Form.Item
+            name="city"
+            rules={[{ required: true, message: 'Please enter your city' }]}
+          >
+            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="City" className="h-12  border-gray-700" />
+          </Form.Item>
+          <Form.Item
+            name="contactNumber"
+            rules={[
+              { required: true, message: 'Please enter your contact number' },
+
+            ]}
+          >
+            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="Contact number" className="h-12  border-gray-700" />
+          </Form.Item>
+        </div>
+
+        <Form.Item>
+          <Button
+
+            htmlType="submit"
+            loading={loading}
+            style={{ backgroundColor: '#D5B98C' }}
+            className="w-full h-12 bg-[#D5B98C] hover:bg-[#C5A97C] text-black font-medium"
+          >
+            Confirm & pay
+          </Button>
+        </Form.Item>
+      </Form>
+
+      <div className="mt-4 bg-[#4545454D] p-4 rounded-lg space-y-2">
+        <div className="flex items-center justify-between">
+          <p>Quantity : </p>
+          <p>
+            {products?.length > 1 ? cartItems.length : 1}x
+          </p>
+
+        </div>
+        <div className="flex items-center justify-between">
+          <p>Sub Total : </p>
+          <p>${totalPrice}</p>
+        </div>
+        <hr />
+        <div className="flex items-center justify-between">
+          <p> Total Price : </p>
+          <p>${totalPrice}</p>
+        </div>
       </div>
 
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Billing address</h2>
-        <Form.Item
-          name="streetAddress"
-          rules={[{ required: true, message: 'Please enter your street address' }]}
-        >
-          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="Street address" className="h-12  border-gray-700" />
-        </Form.Item>
-        <Form.Item
-          name="city"
-          rules={[{ required: true, message: 'Please enter your city' }]}
-        >
-          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="City" className="h-12  border-gray-700" />
-        </Form.Item>
-        <Form.Item
-          name="contactNumber"
-          rules={[
-            { required: true, message: 'Please enter your contact number' },
-
-          ]}
-        >
-          <Input style={{backgroundColor:'transparent',color:'white'}} placeholder="Contact number" className="h-12  border-gray-700" />
-        </Form.Item>
-      </div>
-
-      <Form.Item>
-        <Button
-          
-          htmlType="submit"
-          loading={loading}
-          style={{ backgroundColor: '#D5B98C' }}
-          className="w-full h-12 bg-[#D5B98C] hover:bg-[#C5A97C] text-black font-medium"
-        >
-          Confirm & pay
-        </Button>
-      </Form.Item>
-    </Form>
+    </div>
   );
 };
 
