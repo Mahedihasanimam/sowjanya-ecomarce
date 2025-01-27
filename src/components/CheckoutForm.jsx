@@ -192,7 +192,6 @@ const CheckoutForm = ({ product }) => {
 
         <Form.Item>
           <Button
-
             htmlType="submit"
             loading={loading}
             style={{ backgroundColor: '#D5B98C' }}
