@@ -20,9 +20,13 @@ const Navbar = () => {
   const { logoutUser } = useContext(UserContext);
   const router = useRouter();
   const dispatch = useDispatch();
-  const [getProfile] = useLazyGetProfileQuery();
-
   const addedToken = Cookies.get("token");
+  const token = addedToken
+  const [getProfile, { isLoading }] = useLazyGetProfileQuery(token);
+  // console.log('token', token)
+
+
+
 
   const handlesetUser = useCallback(async () => {
     const user = await getProfile();
@@ -56,7 +60,7 @@ const Navbar = () => {
 
   const user = useSelector((state) => state.user.user);
 
-  // console.log(user);
+  console.log('user',user);
 
   const userMenuItems = (
     <Menu>
@@ -77,7 +81,12 @@ const Navbar = () => {
   ];
 
   return (
+
+
     <div className="bg-black text-white">
+
+      {
+        isLoading ? <div>Loading...</div> : 
       <div className="container mx-auto flex items-center justify-between px-6">
         {/* Logo */}
         <Link href="/">
@@ -180,6 +189,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
+      }
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (

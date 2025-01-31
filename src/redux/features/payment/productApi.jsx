@@ -20,5 +20,4 @@ const paymentApi = api.injectEndpoints({
   }),
 });
 
-export const { useCreatePaymentIntentMutation, usePaymentSuccessMutation } =
-  paymentApi;
+export const { useCreatePaymentIntentMutation, usePaymentSuccessMutation } =  paymentApi;

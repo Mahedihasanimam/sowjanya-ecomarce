@@ -56,7 +56,7 @@ const Page = () => {
 
 
         <div>
-            <PaymentForm product={allproducts} />
+        <PaymentForm product={allproducts}/>
         </div>
         </div>
 

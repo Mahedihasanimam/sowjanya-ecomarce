@@ -1,4 +1,5 @@
-const { api } = require("@/baseApi");
+import { api } from "@/baseApi";
+
 
 const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
