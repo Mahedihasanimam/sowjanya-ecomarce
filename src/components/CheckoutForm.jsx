@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements, PaymentElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import { Form, Input, Button, message } from 'antd';
 import { useCreatePaymentIntentMutation, usePaymentSuccessMutation } from '@/redux/features/payment/productApi';
 import { useSelector } from 'react-redux';
@@ -10,8 +10,137 @@ import Swal from 'sweetalert2';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-const CheckoutForm = ({ product }) => {
+const CheckoutForm = ({ clientSecret, totalPrice }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const user = useSelector((state) => state.user.user);
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
+  const [paymentSuccess] = usePaymentSuccessMutation();
+  const [paymentRequest, setPaymentRequest] = useState(null);
+
+  const onFinish = async (values) => {
+    if (!stripe || !elements) {
+      message.error('Stripe is not yet loaded.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.origin, 
+        },
+        redirect: "if_required",
+      });
+
+      if (error) {
+        message.error(error.message);
+        setLoading(false);
+        return;
+      }
+
+      if (paymentIntent?.status === "succeeded") {
+        const successData = {
+          user_id: user?.id,
+          transaction_id: paymentIntent?.id,
+          amount: totalPrice,
+          payment_method: 'card',
+          payment_status: "success",
+        };
+
+        await paymentSuccess(successData);
+        message.success("Payment successful");
+
+        Swal.fire({
+          icon: "success",
+          title: "Payment successful",
+          text: `Transaction ID: ${paymentIntent.id} | Amount: ${totalPrice}`,
+          showConfirmButton: false,
+        }).then(() => {
+          window.location.href = "/myprofile";
+        });
+      }
+    } catch (error) {
+      message.error("Payment failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: "US",
+        currency: "usd",
+        total: {
+          label: "Total Payment",
+          amount: totalPrice * 100, 
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+  
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentRequest(pr);
+        }
+      });
+    }
+  }, [stripe]);
+  return (
+    <Form style={{ width: '100%',backgroundColor: '#D5B98C ',padding: '20px', }} form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
+      <h2 className="text-xl font-semibold mb-4 text-white">Card details</h2>
+      {paymentRequest && (
+      <PaymentRequestButtonElement options={{ paymentRequest }} />
+    )}
+      {clientSecret && <PaymentElement />}
+      <Form.Item>
+        <Button
+          htmlType="submit"
+          loading={loading}
+          style={{ backgroundColor: 'black',color: 'white'}}
+          className="w-full h-12 bg-black hover:bg-[#C5A97C] text-black font-medium mt-4 border-none"
+        >
+          Confirm & Pay ${totalPrice}
+        </Button>
+      </Form.Item>
+
+ 
+    </Form>
+  );
+};
+
+const PaymentPage = ({ product }) => {
   const products = Array.isArray(product) ? product : product ? [product] : [];
+  const [clientSecret, setClientSecret] = useState('');
+  const [createIntent] = useCreatePaymentIntentMutation();
+
+  const totalPrice = products.reduce((total, item) => total + (parseFloat(item?.price) || 0), 0);
+
+  useEffect(() => {
+    if (totalPrice > 0) {
+      const fetchClientSecret = async () => {
+        try {
+          const res = await createIntent({ amount: totalPrice * 100, payment_method: "pm_card_visa" });
+          if (res?.data?.data?.client_secret) {
+            setClientSecret(res.data.data.client_secret);
+          }
+        } catch (error) {
+          console.error("Error creating payment intent:", error);
+        }
+      };
+
+      fetchClientSecret();
+    }
+  }, [totalPrice, createIntent]);
+
+  const options = { clientSecret };
+
+
+
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -22,187 +151,18 @@ const CheckoutForm = ({ product }) => {
     }
   }, []);
 
-
-
-  const calculateTotalPrice = (products) => {
-    return products.reduce((total, item) => {
-      const { price = 0 } = item || {};
-      return total + parseFloat(price) || 0;
-    }, 0);
-  };
-
-  const totalPrice = calculateTotalPrice(products);
-  console.log("Total Price:", totalPrice);
-
-
-
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const stripe = useStripe();
-  const elements = useElements();
-
-
-  const user = useSelector((state) => state.user.user);
-
-
-  const [createIntent] = useCreatePaymentIntentMutation();
-
-  const [paymentSuccess] = usePaymentSuccessMutation();
-
-  const onFinish = async (values) => {
-    setLoading(true);
-
-    if (!stripe || !elements) {
-      console.error('Stripe.js has not loaded yet.');
-      setLoading(false);
-      return;
-    }
-
-    const card = elements.getElement(CardElement);
-    if (!card) {
-      console.error('CardElement not found.');
-      setLoading(false);
-      return;
-    }
-
-    const res = await createIntent({
-      amount: 100,
-      payment_method: "pm_card_visa"
-    });
-
-
-    console.log(res);
-
-
-    //  console.log(values,product);
-
-    if (res.data?.data?.client_secret) {
-      console.log(res.data.data.client_secret)
-
-
-      const clientSecret = res.data.data.client_secret;
-      const paymentMethodId = res.data.data.payment_method;
-
-      const paymentIntent = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethodId,
-      });
-
-
-      if (paymentIntent.paymentIntent?.status === "succeeded") {
-
-        const successData = {
-          user_id: user?.id,
-          product_id: product?.id,
-          transaction_id: paymentIntent?.paymentIntent?.id,
-          amount: totalPrice,
-          street_address: values?.streetAddress,
-          city: values?.city,
-          contact: values?.contactNumber,
-          payment_method: 'card',
-          payment_status: "success"
-        }
-
-        await paymentSuccess(successData);
-        message?.success("Payment successfull");
-        setLoading(false);
-
-
-        Swal.fire({
-          icon: "success",
-          title: "Payment successfull",
-          closeButtonAriaLabel: "Close",
-          text: `transection id : ${res?.data?.data?.id} amount: ${res?.data?.data?.amount} currency: ${res?.data?.data?.currency}`,
-          showConfirmButton: false,
-        
-        }).then(() => {
-          window.location.href = "/myprofile";
-        });
-
-
-      } else {
-        console.error('Payment failed:', paymentIntent.error);
-        setLoading(false);
-
-        message?.error("Payment failed");
-      }
-
-    }
-
-
-
-
-    setLoading(false);
-  };
-
   return (
-
     <div>
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={onFinish}
-        className="space-y-6"
-        requiredMark={false}
-      >
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-white">Card details</h2>
-          <CardElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#FFFFFFCC',
-                  '::placeholder': {
-                    color: '#aab7c4',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-            className="p-3  border border-gray-700 rounded-md"
-          />
-        </div>
+      {clientSecret ? (
+          <div>
+        <Elements stripe={stripePromise} options={options}>
+          <CheckoutForm clientSecret={clientSecret} totalPrice={totalPrice} />
+        </Elements>
 
         <div>
-          <h2 className="text-xl font-semibold mb-4 text-white">Billing address</h2>
-          <Form.Item
-            name="streetAddress"
-            rules={[{ required: true, message: 'Please enter your street address' }]}
-          >
-            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="Street address" className="h-12  border-gray-700" />
-          </Form.Item>
-          <Form.Item
-            name="city"
-            rules={[{ required: true, message: 'Please enter your city' }]}
-          >
-            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="City" className="h-12  border-gray-700" />
-          </Form.Item>
-          <Form.Item
-            name="contactNumber"
-            rules={[
-              { required: true, message: 'Please enter your contact number' },
 
-            ]}
-          >
-            <Input style={{ backgroundColor: 'transparent', color: 'white' }} placeholder="Contact number" className="h-12  border-gray-700" />
-          </Form.Item>
-        </div>
-
-        <Form.Item>
-          <Button
-            htmlType="submit"
-            loading={loading}
-            style={{ backgroundColor: '#D5B98C' }}
-            className="w-full h-12 bg-[#D5B98C] hover:bg-[#C5A97C] text-black font-medium"
-          >
-            Confirm & pay
-          </Button>
-        </Form.Item>
-      </Form>
-
-      <div className="mt-4 bg-[#4545454D] p-4 rounded-lg space-y-2">
+          {
+            products?.length > 1 && <div className="mt-4 bg-[#4545454D] p-4 rounded-lg space-y-2">
         <div className="flex items-center justify-between">
           <p>Quantity : </p>
           <p>
@@ -220,15 +180,15 @@ const CheckoutForm = ({ product }) => {
           <p>${totalPrice}</p>
         </div>
       </div>
+          }
+        </div>
 
+        </div>
+      ) : (
+        <p>Loading payment details...</p>
+      )}
     </div>
   );
 };
 
-const PaymentForm = ({ product }) => (
-  <Elements stripe={stripePromise}>
-    <CheckoutForm product={product} />
-  </Elements>
-);
-
-export default PaymentForm;
+export default PaymentPage;
