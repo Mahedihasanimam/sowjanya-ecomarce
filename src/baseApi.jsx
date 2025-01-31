@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
+    // baseUrl: "https://fe4d-182-252-68-227.ngrok-free.app/api,
     baseUrl: "http://182.252.68.227:8005/api/",
     prepareHeaders: (headers) => {
       const token = Cookies.get("token"); // Correct usage
